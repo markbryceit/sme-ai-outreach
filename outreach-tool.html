@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SME AI — LinkedIn Outreach Tool</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f111a; color: #e8eaf0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* TOP BAR */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; background: #161929; border-bottom: 1px solid #1e2235; flex-shrink: 0; gap: 16px; }
+  .topbar-title { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -0.3px; white-space: nowrap; }
+  .topbar-title span { color: #0a66c2; }
+  .tab-bar { display: flex; gap: 4px; }
+  .tab-btn { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: #4a5068; transition: background 0.15s, color 0.15s; }
+  .tab-btn.active { background: #0a66c2; color: #fff; }
+  .tab-btn:hover:not(.active) { background: #1e2235; color: #cdd0dc; }
+  .topbar-right { display: flex; align-items: center; gap: 12px; }
+  .progress-wrap { display: flex; align-items: center; gap: 10px; }
+  .progress-bar-outer { width: 140px; height: 5px; background: #1e2235; border-radius: 99px; }
+  .progress-bar-inner { height: 5px; background: #0a66c2; border-radius: 99px; transition: width 0.3s; }
+  .progress-text { font-size: 12px; color: #7a8098; white-space: nowrap; }
+  .day-badge { font-size: 11px; font-weight: 600; color: #7a8098; background: #1e2235; padding: 4px 10px; border-radius: 99px; white-space: nowrap; }
+
+  /* MAIN LAYOUT */
+  .main { display: flex; flex: 1; overflow: hidden; }
+
+  /* SIDEBAR */
+  .sidebar { width: 240px; min-width: 240px; background: #161929; border-right: 1px solid #1e2235; overflow-y: auto; display: flex; flex-direction: column; }
+  .sidebar-header { padding: 12px 16px 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; color: #4a5068; text-transform: uppercase; border-bottom: 1px solid #1e2235; flex-shrink: 0; }
+  .sidebar-divider { padding: 8px 16px; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; color: #f9a825; text-transform: uppercase; background: #1a1800; border-top: 1px solid #1e2235; border-bottom: 1px solid #1e2235; }
+
+  .contact-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid #1a1e2e; display: flex; align-items: center; gap: 8px; transition: background 0.1s; }
+  .contact-item:hover { background: #1a1e2e; }
+  .contact-item.active { background: #1a2a40; border-left: 3px solid #0a66c2; padding-left: 11px; }
+  .contact-item.sent { opacity: 0.45; }
+  .contact-item.interested { border-left: 3px solid #f9a825; padding-left: 11px; opacity: 1; }
+  .contact-item.interested.active { border-left: 3px solid #f9a825; background: #1a1800; }
+  .contact-num { font-size: 11px; font-weight: 700; color: #4a5068; min-width: 16px; }
+  .contact-info { flex: 1; min-width: 0; }
+  .contact-name { font-size: 12px; font-weight: 600; color: #cdd0dc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .contact-company { font-size: 11px; color: #4a5068; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+  .status-icon { font-size: 12px; }
+  .interested-dot { width: 7px; height: 7px; border-radius: 50%; background: #f9a825; flex-shrink: 0; }
+
+  /* RIGHT PANEL */
+  .panel { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 24px 28px; gap: 16px; }
+  .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #4a5068; gap: 10px; }
+  .empty-state p { font-size: 14px; }
+
+  /* CONTACT HEADER */
+  .contact-full-name { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 3px; letter-spacing: -0.4px; }
+  .contact-role { font-size: 13px; color: #7a8098; margin-bottom: 8px; }
+  .sector-pill { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #0a2240; color: #4d9de0; letter-spacing: 0.3px; }
+  .interested-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: #2a1a00; color: #f9a825; letter-spacing: 0.3px; margin-left: 6px; }
+
+  /* MESSAGE BLOCKS */
+  .block { background: #161929; border: 1px solid #1e2235; border-radius: 8px; overflow: hidden; flex-shrink: 0; }
+  .block-label { padding: 8px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #4a5068; border-bottom: 1px solid #1e2235; }
+  .block-text { padding: 14px 16px; font-size: 13px; line-height: 1.8; color: #cdd0dc; white-space: pre-wrap; }
+
+  .why-block { background: #161929; border: 1px solid #1e2235; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #7a8098; line-height: 1.6; flex-shrink: 0; }
+  .why-block strong { color: #4a5068; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; display: block; margin-bottom: 4px; }
+
+  .message-block { flex: 1; display: flex; flex-direction: column; min-height: 0; background: #161929; border: 1px solid #1e2235; border-radius: 8px; overflow: hidden; }
+  .message-text { flex: 1; padding: 14px 16px; font-size: 13.5px; line-height: 1.85; color: #cdd0dc; overflow-y: auto; white-space: pre-wrap; }
+
+  /* FOLLOW-UP TABS */
+  .followup-tabs { display: flex; gap: 2px; padding: 8px 16px; border-bottom: 1px solid #1e2235; flex-shrink: 0; }
+  .followup-tab { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 4px; cursor: pointer; border: none; background: transparent; color: #4a5068; }
+  .followup-tab.active { background: #f9a825; color: #0f111a; }
+  .followup-tab:hover:not(.active) { background: #1e2235; color: #cdd0dc; }
+
+  /* SCROLL AREA */
+  .scroll-panel { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+
+  /* ACTION BAR */
+  .action-bar { display: flex; gap: 10px; flex-shrink: 0; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 11px 18px; border-radius: 7px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: background 0.15s, transform 0.1s; text-decoration: none; letter-spacing: -0.2px; }
+  .btn:active { transform: scale(0.97); }
+  .btn-copy { background: #0a66c2; color: #fff; flex: 1; justify-content: center; font-size: 14px; padding: 14px; }
+  .btn-copy:hover { background: #0959aa; }
+  .btn-copy.copied { background: #1b5e20; }
+  .btn-linkedin { background: #1e2235; color: #7a8098; border: 1px solid #2a2f45; }
+  .btn-linkedin:hover { background: #252a3d; color: #cdd0dc; }
+  .btn-sent { background: #1e2235; color: #7a8098; border: 1px solid #2a2f45; }
+  .btn-sent:hover { background: #1a2a1a; color: #66bb6a; border-color: #2e7d32; }
+  .btn-sent.marked { background: #1a2a1a; color: #66bb6a; border-color: #2e7d32; }
+  .btn-interested { background: #1e2235; color: #7a8098; border: 1px solid #2a2f45; }
+  .btn-interested:hover { background: #1a1400; color: #f9a825; border-color: #f9a825; }
+  .btn-interested.flagged { background: #1a1400; color: #f9a825; border-color: #f9a825; }
+
+  .limit-warning { background: #1a1500; border: 1px solid #3d2e00; border-radius: 8px; padding: 10px 16px; font-size: 12px; color: #f9a825; flex-shrink: 0; }
+
+  /* SOCIAL CONTENT TAB */
+  .social-panel { flex: 1; overflow-y: auto; padding: 0; display: flex; flex-direction: column; gap: 0; }
+  .social-loading { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #4a5068; gap: 12px; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #1e2235; border-top-color: #0a66c2; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .post-card { padding: 20px 24px; border-bottom: 1px solid #1e2235; transition: background 0.1s; }
+  .post-card.today { border-left: 3px solid #f9a825; background: #0f0e00; }
+  .post-card:hover { background: #161929; }
+  .post-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .post-tag { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .tag-contrarian { background: #1a0a2a; color: #b39ddb; }
+  .tag-pain { background: #1a0a0a; color: #ef9a9a; }
+  .tag-claim { background: #0a1a2a; color: #81d4fa; }
+  .tag-list { background: #0a1a0a; color: #a5d6a7; }
+  .tag-question { background: #1a1500; color: #fff176; }
+  .tag-story { background: #1a0a1a; color: #f48fb1; }
+  .post-num { font-size: 11px; color: #4a5068; }
+  .post-cluster { font-size: 10px; color: #4a5068; }
+  .post-body { font-size: 13px; line-height: 1.85; color: #cdd0dc; white-space: pre-wrap; margin-bottom: 12px; }
+  .post-actions { display: flex; gap: 8px; }
+  .btn-sm { padding: 7px 14px; font-size: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s; text-decoration: none; }
+  .btn-sm-copy { background: #0a66c2; color: #fff; }
+  .btn-sm-copy:hover { background: #0959aa; }
+  .btn-sm-copy.copied { background: #1b5e20; }
+  .btn-sm-used { background: #1e2235; color: #7a8098; border: 1px solid #2a2f45; }
+  .btn-sm-used.marked { background: #1a2a1a; color: #66bb6a; border-color: #2e7d32; }
+  .post-filter-bar { padding: 14px 24px; border-bottom: 1px solid #1e2235; display: flex; gap: 8px; flex-wrap: wrap; flex-shrink: 0; }
+  .filter-btn { font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 99px; cursor: pointer; border: 1px solid #2a2f45; background: #1e2235; color: #7a8098; transition: all 0.15s; }
+  .filter-btn.active { background: #0a66c2; color: #fff; border-color: #0a66c2; }
+  .research-summary { padding: 16px 24px; background: #161929; border-bottom: 1px solid #1e2235; font-size: 12px; color: #7a8098; line-height: 1.6; }
+  .research-summary strong { color: #4a5068; display: block; margin-bottom: 6px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title"><span>SME AI</span> — Outreach</div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('outreach')">Daily DMs</button>
+    <button class="tab-btn" onclick="switchTab('social')">Social Content</button>
+  </div>
+  <div class="topbar-right">
+    <div class="progress-wrap">
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar" style="width:0%"></div></div>
+      <span class="progress-text" id="progressText">0 / 10 sent</span>
+    </div>
+    <div class="day-badge">Sat 23 May 2026</div>
+  </div>
+</div>
+
+<!-- OUTREACH TAB -->
+<div class="main" id="tab-outreach">
+  <div class="sidebar">
+    <div class="sidebar-header">Today — Send 10</div>
+    <div id="contactList"></div>
+    <div class="sidebar-divider">Monday — 10 more</div>
+    <div id="mondayList"></div>
+  </div>
+  <div class="panel" id="panel">
+    <div class="empty-state">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <p>Select a contact to get started</p>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL CONTENT TAB -->
+<div class="main" id="tab-social" style="display:none; flex-direction:column;">
+  <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+    <div class="post-filter-bar" id="filterBar">
+      <button class="filter-btn active" onclick="filterPosts('all', this)">All</button>
+      <button class="filter-btn" onclick="filterPosts('contrarian', this)">Contrarian</button>
+      <button class="filter-btn" onclick="filterPosts('pain', this)">Pain</button>
+      <button class="filter-btn" onclick="filterPosts('claim', this)">Big Claim</button>
+      <button class="filter-btn" onclick="filterPosts('list', this)">List</button>
+      <button class="filter-btn" onclick="filterPosts('question', this)">Question</button>
+      <button class="filter-btn" onclick="filterPosts('story', this)">Story</button>
+    </div>
+    <div class="social-panel" id="socialPanel">
+      <div class="social-loading">
+        <div class="spinner"></div>
+        <p style="font-size:14px;">Researching AI influencers and generating your content...</p>
+        <p style="font-size:12px; color:#4a5068;">Studying Ruben Hassid, Pascal BORNET and others. Back in a few minutes.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+// ─── DATA ───────────────────────────────────────────────────────────────────
+
+const FOLLOWUPS = {
+  interested: [
+    {
+      label: "Step 1 — They said yes",
+      sublabel: "Send this immediately",
+      text: `Brilliant, glad you're up for it.
+
+Chloe is our AI Readiness Consultant.
+
+She is still learning on the job, which keeps things honest.
+
+Book directly from the website at any time.
+
+The call takes 15 minutes. No prep needed.
+
+After your call, the team puts together a full report.
+
+You will get quick wins and a clear plan based on what you discussed.
+
+I review every report personally before it goes out.
+
+smeaiconsultancy.com/ai-readiness`
+    },
+    {
+      label: "Step 2 — No booking after 2 days",
+      sublabel: "If they said yes but haven't booked",
+      text: `Hi [First name], just making sure the link came through okay.
+
+smeaiconsultancy.com/ai-readiness
+
+15 minutes with Chloe, book anytime that suits.
+
+No sales call. Just a proper look at where AI fits your business.`
+    },
+    {
+      label: "Step 3 — After their call with Chloe",
+      sublabel: "Send once they've completed the call",
+      text: `Hope the call with Chloe was useful.
+
+Your report is being put together now.
+
+I will review it personally before anything goes out to you.
+
+Any questions before then, just shout.`
+    }
+  ],
+  noresponse: [
+    {
+      label: "Chase 1 — After 5 days",
+      sublabel: "Soft nudge if no reply",
+      text: `Hi [First name], just circling back on my last message.
+
+I know the inbox gets buried.
+
+If AI is something you want to get your head around this year, the free assessment is a good starting point.
+
+15 minutes, no pitch, just clarity.
+
+smeaiconsultancy.com/ai-readiness`
+    },
+    {
+      label: "Chase 2 — Final touch",
+      sublabel: "Last message, then move on",
+      text: `Hi [First name], last one from me on this.
+
+If the timing is not right, no problem at all.
+
+The free assessment stays open if you want it down the line.
+
+smeaiconsultancy.com/ai-readiness
+
+Good luck with everything.`
+    }
+  ]
+};
+
+const contacts = [
+  { id:1, day:'today', name:'Alison Ashworth', role:'Director/Owner', company:'Ashworth Motoring Law Ltd', sector:'Legal', linkedin:'https://www.linkedin.com/in/alison-ashworth-5a569241', why:'Motoring law practice. Heavy on client letters, court bundles, and case notes. AI can cut hours off file prep each week.', message:`Hi Alison, hope the week is treating you well.\n\nQuick one as a fellow business owner.\n\nMotoring law practices are losing hours each week on letters, bundles, and case notes.\n\nMost of that work can now be drafted by AI in minutes, with you reviewing rather than writing from scratch.\n\nI run a free AI Readiness Assessment for SME founders, 15 minutes, no pitch.\n\nYou get a tailored report on where AI saves you time.\n\nWorth 15 minutes?` },
+  { id:2, day:'today', name:'Sarah Williams', role:'Director', company:'Accord Legal Services Ltd', sector:'Legal', linkedin:'https://www.linkedin.com/in/sarah-williams-tep-9955a957', why:'Estate planning and probate work is template-heavy. AI handles client packs, will summaries, and follow-ups faster than any junior.', message:`Hi Sarah, hope all is good at Accord.\n\nQuick thought from one business owner to another.\n\nMost estate planning firms are still typing client packs by hand.\n\nAI now drafts wills summaries, client letters, and review notes in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch involved.\n\nYou get a personalised report on what to automate first.\n\nWould that be useful?` },
+  { id:3, day:'today', name:'Harjap Bhangal', role:'Director', company:'GLS Solicitors', sector:'Legal', linkedin:'https://www.linkedin.com/in/harjap-bhangal-11b569109', why:'Mid-sized solicitors face admin drag plus rising compliance and billing narrative work. AI clears the desk.', message:`Hi Harjap, hope things are busy at GLS.\n\nA quick note as a fellow business owner.\n\nSolicitors are spending whole days on billing narratives, file notes, and client updates.\n\nAI can now do most of that drafting in minutes, with you signing off.\n\nI offer a free 15 minute AI Readiness Assessment for SME firms.\n\nNo pitch, just a clear report on where you save the most time.\n\nWorth a look?` },
+  { id:4, day:'today', name:'Shernaz Motivala', role:'Director & Estate Planning Practitioner', company:'Good Wills Law Ltd', sector:'Legal', linkedin:'https://www.linkedin.com/in/shernaz-motivala-tep-7ab93a2', why:'Wills and estates work is paperwork heavy. AI assistants can draft, summarise, and follow up clients with much less hands-on time.', message:`Hi Shernaz, hope work is going well.\n\nQuick one from a fellow business owner.\n\nWills and estate planning involves a lot of repeat paperwork.\n\nAI now drafts client packs, follow-ups, and summary letters in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME firm owners.\n\nNo sales pitch, just a clear report on where AI saves you time.\n\nWould that be useful?` },
+  { id:5, day:'today', name:'Rachel Matthews', role:'Director', company:'HLG Bookkeeping Solutions Limited', sector:'Accountancy', linkedin:'https://www.linkedin.com/in/rachel-matthews-23603042', why:'Bookkeeping firms are first in line for AI gains. Bank rec, month end, and client packs all automate well.', message:`Hi Rachel, hope things are good at HLG.\n\nQuick note as a fellow business owner.\n\nBookkeeping practices are losing hours each week to reporting and client emails.\n\nAI now drafts month-end packs, follow-ups, and MTD reminders in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a tailored report on the biggest time savers for your practice.\n\nWorth 15 minutes?` },
+  { id:6, day:'today', name:'Jordan Willis', role:'Director, Independent Mortgage Broker', company:'JW Private Finance Ltd', sector:'Mortgage', linkedin:'https://www.linkedin.com/in/jordan-willis-cemap-cerer-ccibs-independent-mortgage-broker-26082385', why:'Brokers spend hours on fact-finds, suitability letters, and protection follow-ups. AI cuts that workload by half.', message:`Hi Jordan, hope business is steady.\n\nQuick one as a fellow business owner.\n\nMost brokers are still typing suitability letters and chasing AML checks by hand.\n\nAI now drafts fact-find summaries, suitability letters, and follow-up sequences in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a personalised report on what to automate first.\n\nWorth a look?` },
+  { id:7, day:'today', name:'Mark Burch', role:'Director, Associate Partner Practice', company:'Sleekstone Private Clients Ltd', sector:'Wealth / IFA', linkedin:'https://www.linkedin.com/in/mark-burch-26942a25', why:'Suitability reports, client review packs, and quarterly summaries eat the week. AI shaves hours off each one.', message:`Hi Mark, hope all is well at Sleekstone.\n\nQuick thought from a fellow business owner.\n\nWealth firms are losing weeks each year to suitability reports and review packs.\n\nAI now drafts these in minutes, with you reviewing rather than writing.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders.\n\nNo pitch, just a clear report on where AI saves you most time.\n\nWould that be useful?` },
+  { id:8, day:'today', name:'Stuart Johnson', role:'Director & Certified Financial Planner', company:'McHardy Private Wealth Ltd', sector:'Wealth / IFA', linkedin:'https://www.linkedin.com/in/stuart-johnson-cfp%E2%84%A2%EF%B8%8F-chartered-mcsi-dippfs-35119999', why:'Chartered planners spend serious time on compliance docs and client reviews. AI drafts and summarises faster than any paraplanner.', message:`Hi Stuart, hope the practice is going well.\n\nQuick note as one business owner to another.\n\nMost financial planning firms still draft suitability reports by hand.\n\nAI now handles drafting, summaries, and review packs in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a tailored report on the top time savers for your practice.\n\nWorth 15 minutes?` },
+  { id:9, day:'today', name:'Darren Scoon', role:'Director, Chartered Financial Planner', company:'Darsco Wealth Mgmt Limited', sector:'Wealth / IFA', linkedin:'https://www.linkedin.com/in/darren-scoon-8771634a', why:'Small wealth firms feel the admin drag hardest. AI gives back days each month for client work.', message:`Hi Darren, hope all is good at Darsco.\n\nQuick one from a fellow business owner.\n\nWealth firms are losing weeks each year to client reports and reviews.\n\nAI can now draft suitability reports, summaries, and follow-ups in minutes.\n\nI run a free 15 minute AI Readiness Assessment, no pitch attached.\n\nYou get a tailored report on what to automate first.\n\nWorth a look?` },
+  { id:10, day:'today', name:'Niall Leyden', role:'Founder', company:'Atlantic Wealth Management', sector:'Wealth / IFA', linkedin:'https://www.linkedin.com/in/niallleyden', why:'Founder-led wealth firms run lean. AI replaces the missing admin or paraplanner hours without the headcount.', message:`Hi Niall, hope all is well at Atlantic.\n\nQuick note as one founder to another.\n\nMost lean wealth firms feel they need an extra paraplanner.\n\nAI now handles client reports, summaries, and follow-ups in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders, no pitch.\n\nYou get a clear report on where AI replaces hours of admin.\n\nWould that be useful?` },
+  { id:11, day:'monday', name:'Jonathan Bradley', role:'Managing Director', company:'Braton Construction Ltd', sector:'Construction', linkedin:'https://www.linkedin.com/in/jonathan-bradley-62337750', why:'Site reports, RAMS, and subcontractor comms drain time. AI handles the writing while you run the job.', message:`Hi Jonathan, hope sites are running well.\n\nQuick one as a fellow business owner.\n\nConstruction firms lose hours each week to site reports and subbie comms.\n\nAI now drafts RAMS, project updates, and tenders in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders, no pitch.\n\nYou get a tailored report on the best wins for your firm.\n\nWorth 15 minutes?` },
+  { id:12, day:'monday', name:'Jack Trathen', role:'Managing Director', company:'Construction Dynamics (North) Ltd', sector:'Construction', linkedin:'https://www.linkedin.com/in/jack-trathen-04988719', why:'Northern contractors face tight margins. AI cuts office overhead so more time goes on the build.', message:`Hi Jack, hope work is steady.\n\nQuick note from a fellow MD.\n\nContractors are losing time each week to tender writing and project reports.\n\nAI now drafts tenders, site updates, and client comms in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a clear report on where AI saves you time and admin cost.\n\nWould that be useful?` },
+  { id:13, day:'monday', name:'Zahid Khan', role:'Chartered Architect & MD', company:'Umaa Architecture Ltd', sector:'Construction', linkedin:'https://www.linkedin.com/in/zahid-khan-95b77239', why:'Architects spend hours on planning statements, briefs, and client emails. AI takes those off the desk.', message:`Hi Zahid, hope the studio is busy.\n\nQuick one as a fellow business owner.\n\nArchitects are losing hours each week to planning statements and client briefs.\n\nAI now drafts design statements, fee proposals, and client emails in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders, no pitch.\n\nYou get a personalised report on the best AI wins for your studio.\n\nWorth 15 minutes?` },
+  { id:14, day:'monday', name:'Mark Edroff', role:'Managing Director', company:'Kingsman Construction Ltd', sector:'Construction', linkedin:'https://www.linkedin.com/in/mark-edroff-60aa6061', why:'Mid-sized construction firms are AI laggards. First mover gains here are real, especially on tender win rate.', message:`Hi Mark, hope all is well at Kingsman.\n\nQuick note as a fellow MD.\n\nMost construction firms are sleeping on AI for tenders and reports.\n\nAI now drafts tender responses and site updates in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a tailored report on the best wins for your firm.\n\nWorth a look?` },
+  { id:15, day:'monday', name:'Stu Wells', role:'Managing Director', company:'Keystage Energy Recruitment Ltd', sector:'Recruitment', linkedin:'https://www.linkedin.com/in/stu-wells-689a3a79', why:'Specialist recruiters live or die on speed of response. AI handles candidate briefs, job specs, and outreach at scale.', message:`Hi Stu, hope the desk is busy.\n\nQuick one from a fellow business owner.\n\nRecruiters are losing time each day to job specs, candidate briefs, and client updates.\n\nAI now drafts these in minutes, freeing you for placements.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders, no pitch.\n\nYou get a clear report on the top time savers for your agency.\n\nWorth 15 minutes?` },
+  { id:16, day:'monday', name:'Mark Swash', role:'Founder', company:'T-B-C Recruiting Ltd', sector:'Recruitment', linkedin:'https://www.linkedin.com/in/recruiting-recruitment-hr-hiring-placements-jobs-talent-jobseeker-employer-opportunities-recruit', why:'Founder-led recruiters carry the admin and the billings. AI gives back hours for client and candidate calls.', message:`Hi Mark, hope all is good at T-B-C.\n\nQuick note from one founder to another.\n\nRecruitment founders are buried in job specs and candidate emails.\n\nAI now drafts these in minutes, with you reviewing.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a tailored report on where AI saves you the most time.\n\nWould that be useful?` },
+  { id:17, day:'monday', name:'Sam Naseer', role:'Founder & Director', company:'SN Recruitment Ltd', sector:'Recruitment', linkedin:'https://www.linkedin.com/in/sam-naseer-233bb530', why:'Boutique agencies need scale without headcount. AI handles outreach sequences and prep faster than any junior.', message:`Hi Sam, hope SN is going well.\n\nQuick one as a fellow founder.\n\nBoutique recruiters often need more capacity without more headcount.\n\nAI now drafts job specs, outreach, and interview prep in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a personalised report on the best wins for your agency.\n\nWorth a look?` },
+  { id:18, day:'monday', name:'Callum Stokes', role:'Managing Director', company:'Clear Automotive Recruitment Solutions Ltd', sector:'Recruitment', linkedin:'https://www.linkedin.com/in/callum-stokes-872088138', why:'Automotive sector recruitment is moving fast. AI helps with sector-specific job specs and candidate qualification.', message:`Hi Callum, hope the desk is busy.\n\nQuick note as a fellow MD.\n\nAutomotive recruiters are losing time on specs, candidate briefs, and client updates.\n\nAI now drafts all of these in minutes, freeing you for calls.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a tailored report on the top wins for your agency.\n\nWorth 15 minutes?` },
+  { id:19, day:'monday', name:'Barry Abrams', role:'CEO & Founder', company:'Ignite Insurance Brokers Ltd', sector:'Insurance', linkedin:'https://www.linkedin.com/in/barryabramsinsurance', why:'Brokerages handle huge volumes of client docs and renewals. AI takes the writing load off the back office.', message:`Hi Barry, hope Ignite is going well.\n\nQuick one as one founder to another.\n\nInsurance brokers are losing hours each week to renewals, summaries, and client emails.\n\nAI now drafts policy summaries, renewal letters, and client packs in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders, no pitch.\n\nYou get a clear report on the best AI wins for your brokerage.\n\nWould that be useful?` },
+  { id:20, day:'monday', name:'Cammy Bell', role:'Director', company:'CBell Property Management Ltd', sector:'Property', linkedin:'https://www.linkedin.com/in/cammybell', why:'Property managers juggle tenant comms, inspections, and supplier follow-ups. AI clears the inbox in a fraction of the time.', message:`Hi Cammy, hope all is well at CBell.\n\nQuick note from a fellow business owner.\n\nProperty managers are buried in tenant emails, inspection notes, and supplier chasers.\n\nAI now drafts these in minutes, freeing you for the bigger work.\n\nI run a free 15 minute AI Readiness Assessment for SME owners, no pitch.\n\nYou get a tailored report on the top time savers for your firm.\n\nWorth a look?` }
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let sentIds = new Set(JSON.parse(localStorage.getItem('sent_ids')||'[]').map(Number));
+let interestedIds = new Set(JSON.parse(localStorage.getItem('interested_ids')||'[]').map(Number));
+let usedPostIds = new Set(JSON.parse(localStorage.getItem('used_post_ids')||'[]').map(Number));
+let activeId = null;
+let activeTab = 'outreach';
+let activeFollowupTab = {};
+let activeFilter = 'all';
+let todayPostId = null;
+
+// ─── SOCIAL POSTS (embedded — no fetch needed) ───────────────────────────────
+const SOCIAL_POSTS = {
+  generated: "2026-05-23",
+  research_summary: "Ruben Hassid's viral posts (3,500 to 4,600 likes each) share one pattern: a contrarian simplification hook in the first line, followed by numbered or bulleted steps in short sentences with heavy white space. He builds trust through radical transparency and anti-hype positioning. Pascal BORNET drives engagement through authoritative data framing with human impact overlays. Both avoid emojis, avoid hyperbole, and write like operators rather than evangelists.\n\nThe 2026 LinkedIn algorithm rewards comments 15x more than likes. The first 90 minutes determine 70% of a post's reach. The viral sweet spot is 900 to 1,300 characters. Posts that provoke debate outperform posts that simply inform. Stat-based hooks outperform all other hook types at 1.67x baseline.\n\nWhat is working right now: specific sector stories with real time numbers, the £78bn UK productivity gap framing, the '80% haven't started, 20% are compounding' contrast, and posts that end with a strong opinion or a clear challenge. Generic 'AI is transforming everything' content is losing reach fast.",
+  posts: [
+    { id:1, hook_type:"contrarian", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"very high", content:"AI is not complicated.\n\nThat is the biggest lie in the industry.\n\nThe tools are built to be simple.\n\nThe results are immediate.\n\nThe learning curve is days, not months.\n\nThe people selling you on complexity are selling you something.\n\nYou do not need a tech team.\n\nYou do not need a big budget.\n\nYou need 15 minutes and a clear problem to solve.\n\nStart there." },
+    { id:2, hook_type:"pain", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"very high", content:"I sat with a business owner last week who had been 'looking into AI' for 14 months.\n\nShe had watched the videos.\n\nShe had read the articles.\n\nShe had been on three webinars.\n\nShe had not done a single thing.\n\nWe set up her first AI workflow in 40 minutes.\n\nShe sent me a message the next morning.\n\n'I saved two hours before lunch.'\n\nThe information is not the problem.\n\nStarting is the problem." },
+    { id:3, hook_type:"question", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"high", content:"What would you do with an extra five hours a week?\n\nNot hypothetically. Actually.\n\nMost SME owners I speak to cannot answer that question.\n\nBecause they have never had five hours back.\n\nBut that is what AI is doing for businesses right now.\n\nNot the big ones. The small ones.\n\nThe 10-person law firm.\n\nThe three-partner accountancy practice.\n\nThe recruitment agency where one person does the work of three.\n\nAI does not care how big you are.\n\nIt cares how clear you are about what is slowing you down." },
+    { id:4, hook_type:"claim", topic_cluster:"Here's what AI is saving businesses right now", format:"story", estimated_engagement:"very high", content:"A recruitment firm in Manchester cut their time-to-shortlist from 4 days to 6 hours.\n\nSame team. Same volume. No extra hires.\n\nThey did not buy expensive software.\n\nThey did not hire a consultant for six months.\n\nThey sat down for an afternoon and mapped out where the time was going.\n\nThen they built one AI workflow to fix the biggest problem.\n\nThat was it.\n\nMost of the wins I see are like this.\n\nNot dramatic. Not complicated.\n\nJust time given back." },
+    { id:5, hook_type:"list", topic_cluster:"Here's what AI is saving businesses right now", format:"list", estimated_engagement:"high", content:"5 things UK SMEs are using AI for right now that you probably aren't:\n\n1. First drafts of client reports.\nNot the final copy. The starting point. Saves 60 to 90 minutes per report.\n\n2. Answering inbound enquiries out of hours.\nNo missed leads. No Monday morning backlog.\n\n3. Writing job specs and candidate summaries.\nA task that used to take a recruiter an hour now takes eight minutes.\n\n4. Responding to planning queries and supplier emails.\nBoilerplate work that eats the afternoon, gone.\n\n5. Summarising long documents before a meeting.\n30 pages read and summarised in 45 seconds.\n\nNone of this is futuristic.\n\nAll of it is available today." },
+    { id:6, hook_type:"contrarian", topic_cluster:"Here's what AI is saving businesses right now", format:"short punchy", estimated_engagement:"very high", content:"AI is not taking jobs in SMEs.\n\nIt is doing the jobs nobody wanted.\n\nThe data entry.\n\nThe copy-paste.\n\nThe first draft of the thing you have written 40 times before.\n\nThe follow-up email that always says the same thing.\n\nNobody is upset that AI is doing those.\n\nThey are relieved.\n\nThat is the story that does not make the headlines." },
+    { id:7, hook_type:"contrarian", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"You are thinking about AI wrong.\n\nMost people ask: 'What can AI do?'\n\nThe better question is: 'What am I doing that I hate doing?'\n\nStart there.\n\nAI is not a technology decision.\n\nIt is a time decision.\n\nWhat is eating your week that shouldn't be?\n\nThat is your starting point.\n\nEvery time." },
+    { id:8, hook_type:"pain", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"The most expensive AI mistake is waiting for the perfect use case.\n\nI see it every week.\n\nBusiness owners who know they need to start.\n\nWho agree AI will change things.\n\nWho are waiting for the 'right moment.'\n\nThere is no right moment.\n\nThere is just the work piling up.\n\nAnd a competitor who started six months ago and is not looking back." },
+    { id:9, hook_type:"question", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"high", content:"How much of your week is work only you can do?\n\nReally think about it.\n\nNot the stuff that lands in your inbox.\n\nNot the reports.\n\nNot the follow-ups.\n\nNot the proposals.\n\nThe things that genuinely require your brain.\n\nFor most founders I speak to, that is about 30% of the week.\n\nThe other 70% is work AI can assist with.\n\nRight now.\n\nThat percentage is not going to improve on its own." },
+    { id:10, hook_type:"pain", topic_cluster:"A specific sector story", format:"story", estimated_engagement:"very high", content:"An accountancy firm in Cheshire had a Saturday call. Every week.\n\nPartners only.\n\nTwo hours.\n\nGoing through client queries that had built up.\n\nNot because they wanted to work Saturdays.\n\nBecause they hadn't found a better way.\n\nWe built an AI system for their inbound queries.\n\nIt categorised each one.\n\nFlagged the urgent cases.\n\nDrafted first responses.\n\nThe Saturday call lasted 22 minutes the first week they used it.\n\nThe week after, they cancelled it." },
+    { id:11, hook_type:"claim", topic_cluster:"A specific sector story", format:"story", estimated_engagement:"very high", content:"A solicitor in Manchester billed 11 extra hours last month.\n\nShe didn't work more.\n\nShe spent less time writing.\n\nCase notes, client letters, and file summaries used to eat her afternoons.\n\nNow she reviews what AI drafts.\n\nHer words, her sign-off, her expertise.\n\nJust not her time.\n\nThat 11 hours at her billing rate is not a small number.\n\nFor a one-person firm, it changes everything." },
+    { id:12, hook_type:"contrarian", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"You're using AI like a search engine.\n\nThat is the most common mistake I see.\n\nYou type a question in.\n\nYou get an answer back.\n\nYou feel like you're using AI.\n\nYou're not.\n\nYou're doing a more expensive version of Google.\n\nAI isn't a question-answering tool.\n\nIt's a workflow tool.\n\nThe difference is huge.\n\nOne saves you 10 minutes.\n\nThe other saves you 10 hours a week." },
+    { id:13, hook_type:"list", topic_cluster:"A specific sector story", format:"list", estimated_engagement:"high", content:"What AI is doing for financial advisers right now:\n\n1. Drafting suitability reports.\nNot writing them from scratch every time. Drafting. You review and sign off.\n\n2. Summarising client meeting notes.\n45 minutes of conversation turned into a structured action list in 2 minutes.\n\n3. Chasing missing documents.\nFollow-up sequences that go out automatically without anyone thinking about them.\n\n4. Researching fund performance summaries.\nContext pulled together before every client review, not during it.\n\nThe compliance work is still yours.\n\nThe thinking is still yours.\n\nThe typing doesn't have to be." },
+    { id:14, hook_type:"pain", topic_cluster:"A specific sector story", format:"story", estimated_engagement:"very high", content:"A construction MD told me he spent every Sunday evening on tender documents.\n\nNot writing strategy.\n\nNot winning work.\n\nWriting the same sections he had written 80 times before.\n\nCompany overview.\n\nHealth and safety statement.\n\nPrevious projects.\n\nAI handles all three now.\n\nHe still reviews them.\n\nHe still wins the work.\n\nHe does not do it on Sunday evenings anymore." },
+    { id:15, hook_type:"question", topic_cluster:"A specific sector story", format:"short punchy", estimated_engagement:"high", content:"How many emails does your firm send that are basically the same email?\n\nAcknowledging an enquiry.\n\nSending a quote.\n\nFollowing up on an invoice.\n\nConfirming an appointment.\n\nFor most SMEs the answer is somewhere between 50 and 200 a week.\n\nAll of those can be handled by AI.\n\nNot sent blindly.\n\nTriggered, personalised, and reviewed.\n\nBut not written from scratch every time by someone who has better things to do." },
+    { id:16, hook_type:"contrarian", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"Your competitor isn't worried about AI replacing their staff.\n\nThey're using AI to do more with the same staff.\n\nThat's the reframe most people miss.\n\nIt's not a headcount conversation.\n\nIt's a capacity conversation.\n\nThe same 10 people doing the work of 14.\n\nWithout burning out.\n\nThat's what your competitor is thinking about.\n\nAre you?" },
+    { id:17, hook_type:"claim", topic_cluster:"Here's what AI is saving businesses right now", format:"story", estimated_engagement:"very high", content:"One of my clients got his Monday mornings back.\n\nHe used to spend the first two hours of every week sorting through the weekend enquiries.\n\nReading them.\n\nDeciding which ones to reply to first.\n\nWriting the responses.\n\nNow an AI agent does all three before he wakes up.\n\nBy the time he sits down on Monday, there are drafted responses waiting for his approval.\n\nHe reads them.\n\nHe hits send.\n\nHe is on client calls by 9am.\n\nTwo hours given back. Every week. Forever." },
+    { id:18, hook_type:"list", topic_cluster:"AI tool of the week", format:"list", estimated_engagement:"high", content:"3 AI tools every SME should know about right now:\n\n1. Claude (Anthropic)\nBetter at long documents and nuanced writing than most people realise. Especially good for legal and compliance-heavy industries.\n\n2. Perplexity\nFor research that used to take an hour. Finds, summarises, and cites. Faster than any junior.\n\n3. Notion AI\nIf your team already uses Notion, AI is built in. Meeting notes, action lists, project summaries. All handled.\n\nNone of these cost more than a team lunch.\n\nAll of them will change how you work within a week of using them properly." },
+    { id:19, hook_type:"question", topic_cluster:"AI tool of the week", format:"short punchy", estimated_engagement:"high", content:"Are you still summarising documents by hand?\n\nReading a 40-page report line by line.\n\nHighlighting.\n\nTaking notes.\n\nBefore every meeting.\n\nThat was a reasonable use of time in 2022.\n\nIn 2026 it is not.\n\nYou can paste any document into an AI tool and get a structured summary in under a minute.\n\nKey points.\n\nRed flags.\n\nQuestions to ask.\n\nAll ready before you walk in the room.\n\nThis is not futuristic.\n\nThis is a Tuesday." },
+    { id:20, hook_type:"claim", topic_cluster:"AI tool of the week", format:"short punchy", estimated_engagement:"high", content:"There is a tool that reads your contracts and flags the risks before you sign.\n\nNot a lawyer.\n\nNot a £400-an-hour phone call.\n\nA tool.\n\nIn seconds.\n\nFor SMEs who cannot afford legal review on every supplier agreement, this matters.\n\nAI is not replacing your judgement.\n\nIt is giving you more information before you exercise it.\n\nThat is a significant shift." },
+    { id:21, hook_type:"contrarian", topic_cluster:"Prediction / industry take", format:"short punchy", estimated_engagement:"very high", content:"In two years, every SME proposal will be written by AI.\n\nNot because the ideas are AI's.\n\nBecause the structure, the language, and the formatting are repeatable.\n\nThe firms that figure this out first will submit more proposals.\n\nBetter ones.\n\nFaster.\n\nAt a fraction of the cost.\n\nThe firms that don't will lose work to people who are half as experienced but twice as fast.\n\nThat shift is not coming.\n\nIt is already here for the businesses paying attention." },
+    { id:22, hook_type:"question", topic_cluster:"Prediction / industry take", format:"short punchy", estimated_engagement:"high", content:"What happens to the SMEs that don't start with AI this year?\n\nI don't think they disappear overnight.\n\nI think they get slower.\n\nWhile their competitors get faster.\n\nI think they get more expensive to run.\n\nWhile the competition gets leaner.\n\nI think they struggle to recruit.\n\nBecause good people want to work somewhere that doesn't feel stuck.\n\nNone of that is dramatic.\n\nBut compounded over three years, it is hard to reverse.\n\nThe gap between the businesses that started and those that didn't is widening every month." },
+    { id:23, hook_type:"claim", topic_cluster:"Mark's personal journey/vulnerability", format:"story", estimated_engagement:"very high", content:"Six months ago I thought AI agents were for enterprise teams.\n\nNot for SMEs.\n\nNot yet.\n\nI was wrong.\n\nAn AI agent called Chloe now handles the first contact with every enquiry we get.\n\nShe qualifies them.\n\nAssesses their AI readiness.\n\nSends a personalised report.\n\nBooks the follow-up.\n\nWithout me.\n\nI didn't build it.\n\nI described what I wanted.\n\nAnd it got built.\n\nThat's the bit people don't believe.\n\nUntil they see it." },
+    { id:24, hook_type:"pain", topic_cluster:"Mark's personal journey/vulnerability", format:"story", estimated_engagement:"very high", content:"I changed lanes completely this year.\n\nFrom executive performance coaching to AI consultancy.\n\nSame audience.\n\nDifferent problem.\n\nI spent three years helping CEOs get their bodies right.\n\nNow I help their businesses run right.\n\nSome people thought it was a strange move.\n\nMaybe it was.\n\nBut I kept seeing the same thing.\n\nSmart, capable people buried in work that should not require a smart capable person.\n\nAI fixes that.\n\nThat is the work I want to be doing." },
+    { id:25, hook_type:"contrarian", topic_cluster:"Mark's personal journey/vulnerability", format:"story", estimated_engagement:"very high", content:"I was sceptical about AI. Proper sceptical.\n\nI thought it was mostly hype.\n\nI thought it was for big tech firms with data teams.\n\nI thought SMEs would be last in line.\n\nI was wrong on all three.\n\nThe thing that changed my mind:\n\nA 58-year-old solicitor in Stockport saving four hours on a Thursday afternoon.\n\nShe wasn't interested in the technology.\n\nShe was interested in her Thursday afternoon.\n\nThat's when it clicked for me." },
+    { id:26, hook_type:"question", topic_cluster:"Mark's personal journey/vulnerability", format:"short punchy", estimated_engagement:"high", content:"What would you do with a Friday afternoon?\n\nNot checking emails.\n\nNot on calls.\n\nActually free.\n\nI ask this because most of the business owners I speak to haven't had a free Friday afternoon in years.\n\nThey don't know what they'd do with one.\n\nThat's not a productivity problem.\n\nThat's a life problem.\n\nAI will not solve everything.\n\nBut buying back Friday afternoon is a reasonable start." },
+    { id:27, hook_type:"list", topic_cluster:"Prediction / industry take", format:"list", estimated_engagement:"high", content:"5 predictions for AI in UK SMEs over the next 12 months:\n\n1. AI literacy will become a hiring requirement.\nNot coding. Just knowing how to work with AI tools. Businesses that don't adopt will lose candidates to those that have.\n\n2. The AI visibility gap will cost businesses real clients.\nIf ChatGPT doesn't recommend your firm, neither will a growing number of buyers.\n\n3. SME owners will stop doing first drafts.\nOf anything. Proposals, emails, reports. AI writes the draft. You edit.\n\n4. AI consultancy will become a standard line item.\nLike accounting or legal. Most SMEs will have an AI partner within two years.\n\n5. The businesses that started in 2025 and 2026 will look back at this as when the gap opened.\n\nWhich side of the gap are you on?" },
+    { id:28, hook_type:"claim", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"high", content:"You do not need to understand how AI works to benefit from it.\n\nYou do not understand how your accountancy software works either.\n\nYou use it.\n\nAI is the same.\n\nYou describe the problem.\n\nYou get a result.\n\nYou refine it.\n\nYou save time.\n\nThe technical explanation is interesting.\n\nIt is not required.\n\nStart using it. Understand it later." },
+    { id:29, hook_type:"pain", topic_cluster:"Here's what AI is saving businesses right now", format:"story", estimated_engagement:"very high", content:"A recruitment director told me she cried in the car last November.\n\nNot because of a client.\n\nNot because of a candidate.\n\nBecause she had been in the office until 9pm three nights in a row.\n\nWriting job specs.\n\nThe same job specs she had written for similar roles a dozen times.\n\nShe messaged me three weeks after we set up her AI system.\n\n'I've been home for dinner every night this week.'\n\nThat is the actual result.\n\nNot productivity metrics.\n\nDinner." },
+    { id:30, hook_type:"contrarian", topic_cluster:"Prediction / industry take", format:"short punchy", estimated_engagement:"very high", content:"The businesses winning with AI are not the ones with the biggest budgets.\n\nThey are the ones that moved first.\n\nA three-person IFA practice in Leeds is running AI workflows that a 50-person firm in London hasn't figured out yet.\n\nSize is not the advantage anymore.\n\nSpeed is.\n\nThe window to be an early mover in your sector is still open.\n\nNot for long." }
+  ]
+};
+let socialPosts = SOCIAL_POSTS;
+
+function save() {
+  try {
+    localStorage.setItem('sent_ids', JSON.stringify([...sentIds]));
+    localStorage.setItem('interested_ids', JSON.stringify([...interestedIds]));
+    localStorage.setItem('used_post_ids', JSON.stringify([...usedPostIds]));
+  } catch(e) {}
+}
+
+// ─── TABS ────────────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  activeTab = tab;
+  document.getElementById('tab-outreach').style.display = tab === 'outreach' ? 'flex' : 'none';
+  document.getElementById('tab-social').style.display = tab === 'social' ? 'flex' : 'none';
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (i===0&&tab==='outreach')||(i===1&&tab==='social')));
+  if (tab === 'social') renderSocial();
+}
+
+// ─── PROGRESS ────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const today = contacts.filter(c => c.day==='today');
+  const sent = today.filter(c => sentIds.has(c.id)).length;
+  document.getElementById('progressBar').style.width = Math.round(sent/today.length*100)+'%';
+  document.getElementById('progressText').textContent = sent+' / '+today.length+' sent';
+}
+
+// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+function renderSidebar() {
+  ['contactList','mondayList'].forEach(id => document.getElementById(id).innerHTML='');
+  contacts.forEach(c => {
+    const div = document.createElement('div');
+    const isInterested = interestedIds.has(c.id);
+    const isSent = sentIds.has(c.id);
+    div.className = 'contact-item' +
+      (activeId===c.id ? ' active' : '') +
+      (isInterested ? ' interested' : '') +
+      (isSent && !isInterested ? ' sent' : '');
+    div.innerHTML = `
+      <div class="contact-num">${c.id}</div>
+      <div class="contact-info">
+        <div class="contact-name">${c.name}</div>
+        <div class="contact-company">${c.company}</div>
+      </div>
+      ${isInterested ? '<div class="interested-dot"></div>' : (isSent ? '<div class="status-icon">✓</div>' : '')}
+    `;
+    div.onclick = () => selectContact(c.id);
+    document.getElementById(c.day==='today'?'contactList':'mondayList').appendChild(div);
+  });
+}
+
+// ─── CONTACT VIEW ────────────────────────────────────────────────────────────
+function selectContact(id) {
+  activeId = id;
+  const c = contacts.find(x=>x.id===id);
+  const isInterested = interestedIds.has(id);
+  const isSent = sentIds.has(id);
+  if (!activeFollowupTab[id]) activeFollowupTab[id] = 0;
+  renderSidebar();
+  renderPanel(c, isInterested, isSent);
+}
+
+function renderPanel(c, isInterested, isSent) {
+  const panel = document.getElementById('panel');
+  const followupSection = isInterested ? buildFollowupSection(c.id, isInterested) : '';
+
+  panel.innerHTML = `
+    <div style="flex-shrink:0;">
+      <div class="contact-full-name">${c.name}${isInterested ? '<span class="interested-badge">Interested</span>' : ''}</div>
+      <div class="contact-role">${c.role} &middot; ${c.company}</div>
+      <span class="sector-pill">${c.sector}</span>
+    </div>
+
+    <div class="why-block"><strong>Why them</strong>${c.why}</div>
+
+    <div class="message-block">
+      <div class="block-label">Initial DM — copy and paste into LinkedIn</div>
+      <div class="message-text">${c.message}</div>
+    </div>
+
+    <div class="action-bar">
+      <button class="btn btn-copy" id="copyBtn" onclick="copyInitial(${c.id})">Copy message</button>
+      <a class="btn btn-linkedin" href="${c.linkedin}" target="_blank" rel="noopener">Open LinkedIn ↗</a>
+      <button class="btn btn-interested ${isInterested?'flagged':''}" id="intBtn" onclick="toggleInterested(${c.id})">
+        ${isInterested ? 'Interested' : 'Flag interested'}
+      </button>
+      <button class="btn btn-sent ${isSent?'marked':''}" id="sentBtn" onclick="markSent(${c.id})">
+        ${isSent ? '✓ Sent' : 'Mark sent'}
+      </button>
+    </div>
+
+    ${c.id===10 && c.day==='today' ? '<div class="limit-warning">Stop here today. Contacts 11-20 go out on Monday.</div>' : ''}
+
+    ${isInterested ? `
+    <div class="message-block" id="followupBlock">
+      <div class="followup-tabs" id="followupTabs"></div>
+      <div class="message-text" id="followupText"></div>
+      <div style="padding:10px 14px;border-top:1px solid #1e2235;display:flex;gap:8px;flex-shrink:0;">
+        <button class="btn btn-copy" style="font-size:12px;padding:9px 14px;" id="copyFollowupBtn" onclick="copyFollowup(${c.id})">Copy this message</button>
+      </div>
+    </div>` : ''}
+  `;
+
+  if (isInterested) renderFollowupTabs(c.id);
+  if (c.id === 10 && c.day === 'today') {
+    // handled inline
+  }
+}
+
+function renderFollowupTabs(contactId) {
+  const allSteps = [...FOLLOWUPS.interested, ...FOLLOWUPS.noresponse];
+  const tabsEl = document.getElementById('followupTabs');
+  const textEl = document.getElementById('followupText');
+  if (!tabsEl || !textEl) return;
+  const current = activeFollowupTab[contactId] || 0;
+
+  tabsEl.innerHTML = allSteps.map((f,i) => `
+    <button class="followup-tab ${i===current?'active':''}" onclick="setFollowupTab(${contactId},${i})">${f.label.split('—')[0].trim()}</button>
+  `).join('');
+
+  textEl.textContent = allSteps[current].text;
+
+  // Show sublabel
+  const sublabel = document.createElement('div');
+  sublabel.style.cssText = 'font-size:11px;color:#4a5068;padding:6px 16px 0;flex-shrink:0;';
+  sublabel.textContent = allSteps[current].sublabel;
+  tabsEl.parentElement.insertBefore(sublabel, textEl);
+}
+
+function setFollowupTab(contactId, idx) {
+  activeFollowupTab[contactId] = idx;
+  const allSteps = [...FOLLOWUPS.interested, ...FOLLOWUPS.noresponse];
+  document.querySelectorAll('.followup-tab').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  document.getElementById('followupText').textContent = allSteps[idx].text;
+  const sublabels = document.querySelectorAll('[style*="4a5068"][style*="11px"]');
+  if (sublabels.length) sublabels[sublabels.length-1].textContent = allSteps[idx].sublabel;
+}
+
+function copyInitial(id) {
+  const c = contacts.find(x=>x.id===id);
+  navigator.clipboard.writeText(c.message).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.textContent='Copied';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy message';btn.classList.remove('copied');},2000);
+  });
+}
+
+function copyFollowup(contactId) {
+  const allSteps = [...FOLLOWUPS.interested, ...FOLLOWUPS.noresponse];
+  const idx = activeFollowupTab[contactId]||0;
+  navigator.clipboard.writeText(allSteps[idx].text).then(()=>{
+    const btn=document.getElementById('copyFollowupBtn');
+    btn.textContent='Copied';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy this message';btn.classList.remove('copied');},2000);
+  });
+}
+
+function markSent(id) {
+  sentIds.add(id); save(); updateProgress(); renderSidebar();
+  const btn=document.getElementById('sentBtn');
+  if(btn){btn.textContent='✓ Sent';btn.classList.add('marked');}
+  const next=contacts.find(c=>c.id>id&&!sentIds.has(c.id)&&c.day==='today');
+  if(next) setTimeout(()=>selectContact(next.id),400);
+}
+
+function toggleInterested(id) {
+  if(interestedIds.has(id)){interestedIds.delete(id);}else{interestedIds.add(id);sentIds.add(id);}
+  save(); updateProgress();
+  selectContact(id);
+}
+
+// ─── SOCIAL CONTENT ──────────────────────────────────────────────────────────
+function renderSocial() {
+  const today = new Date().toISOString().slice(0,10);
+
+  // Best-effort: try to load tracker to find today's post ID
+  // This will fail silently when opened via file:// — that's fine
+  fetch('linkedin-post-tracker.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(tracker => {
+      if (tracker && tracker.last_posted === today && tracker.used_ids && tracker.used_ids.length) {
+        todayPostId = tracker.used_ids[tracker.used_ids.length - 1];
+      }
+    })
+    .catch(()=>{})
+    .finally(() => renderPosts());
+}
+
+function renderPosts() {
+  const panel = document.getElementById('socialPanel');
+  if (!socialPosts || !socialPosts.posts) return;
+
+  let filtered = activeFilter==='all' ? socialPosts.posts : socialPosts.posts.filter(p=>p.hook_type===activeFilter);
+
+  // Pin today's post first if it exists in the filtered set
+  let todayPost = todayPostId ? filtered.find(p=>p.id===todayPostId) : null;
+  let rest = todayPost ? filtered.filter(p=>p.id!==todayPostId) : filtered;
+  const ordered = todayPost ? [todayPost, ...rest] : rest;
+
+  let html = '';
+  if (socialPosts.research_summary) {
+    html += `<div class="research-summary"><strong>Research Summary — what the research found</strong>${socialPosts.research_summary}</div>`;
+  }
+
+  ordered.forEach(p => {
+    const isUsed = usedPostIds.has(p.id);
+    const isToday = p.id === todayPostId;
+    const tagClass = `tag-${p.hook_type}`;
+    const todayBorder = isToday ? 'border-left:3px solid #f9a825;' : '';
+    html += `
+      <div class="post-card" id="post-${p.id}" style="${todayBorder}">
+        <div class="post-meta">
+          ${isToday ? '<span class="post-tag" style="background:#2a1a00;color:#f9a825;">TODAY</span>' : ''}
+          <span class="post-tag ${tagClass}">${p.hook_type}</span>
+          <span class="post-cluster">${p.topic_cluster}</span>
+          <span class="post-num">#${p.id}</span>
+          ${isUsed && !isToday ? '<span style="font-size:10px;color:#2e7d32;font-weight:700;">USED</span>' : ''}
+        </div>
+        <div class="post-body">${p.content}</div>
+        <div class="post-actions">
+          <button class="btn-sm btn-sm-copy" id="pcopy-${p.id}" onclick="copyPost(${p.id})">Copy post</button>
+          <button class="btn-sm btn-sm-used ${isUsed?'marked':''}" id="pused-${p.id}" onclick="markPostUsed(${p.id})">${isUsed?'Used':'Mark used'}</button>
+        </div>
+      </div>`;
+  });
+
+  if (!ordered.length) html = '<div class="social-loading"><p>No posts match this filter.</p></div>';
+  panel.innerHTML = html;
+}
+
+function filterPosts(type, btn) {
+  activeFilter = type;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPosts();
+}
+
+function copyPost(id) {
+  if (!socialPosts) return;
+  const p = socialPosts.posts.find(x=>x.id===id);
+  navigator.clipboard.writeText(p.content).then(()=>{
+    const btn=document.getElementById('pcopy-'+id);
+    btn.textContent='Copied';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='Copy post';btn.classList.remove('copied');},2000);
+  });
+}
+
+function markPostUsed(id) {
+  usedPostIds.add(id); save();
+  const btn=document.getElementById('pused-'+id);
+  if(btn){btn.textContent='Used';btn.classList.add('marked');}
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+renderSidebar();
+updateProgress();
+const firstUnsent = contacts.find(c=>c.day==='today'&&!sentIds.has(c.id));
+if(firstUnsent) selectContact(firstUnsent.id);
+
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SME AI — LinkedIn Outreach Tool</title>
+<title>SME AI â LinkedIn Outreach Tool</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f111a; color: #e8eaf0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -129,7 +129,7 @@
 <body>
 
 <div class="topbar">
-  <div class="topbar-title"><span>SME AI</span> — Outreach</div>
+  <div class="topbar-title"><span>SME AI</span> â Outreach</div>
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('outreach')">Daily DMs</button>
     <button class="tab-btn" onclick="switchTab('social')">Social Content</button>
@@ -146,9 +146,9 @@
 <!-- OUTREACH TAB -->
 <div class="main" id="tab-outreach">
   <div class="sidebar">
-    <div class="sidebar-header">Today — Send 10</div>
+    <div class="sidebar-header">Today â Send 10</div>
     <div id="contactList"></div>
-    <div class="sidebar-divider">Monday — 10 more</div>
+    <div class="sidebar-divider">Monday â 10 more</div>
     <div id="mondayList"></div>
   </div>
   <div class="panel" id="panel">
@@ -183,12 +183,12 @@
 
 <script>
 
-// ─── DATA ───────────────────────────────────────────────────────────────────
+// âââ DATA âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 
 const FOLLOWUPS = {
   interested: [
     {
-      label: "Step 1 — They said yes",
+      label: "Step 1 â They said yes",
       sublabel: "Send this immediately",
       text: `Brilliant, glad you're up for it.
 
@@ -209,7 +209,7 @@ I review every report personally before it goes out.
 smeaiconsultancy.com/ai-readiness`
     },
     {
-      label: "Step 2 — No booking after 2 days",
+      label: "Step 2 â No booking after 2 days",
       sublabel: "If they said yes but haven't booked",
       text: `Hi [First name], just making sure the link came through okay.
 
@@ -220,7 +220,7 @@ smeaiconsultancy.com/ai-readiness
 No sales call. Just a proper look at where AI fits your business.`
     },
     {
-      label: "Step 3 — After their call with Chloe",
+      label: "Step 3 â After their call with Chloe",
       sublabel: "Send once they've completed the call",
       text: `Hope the call with Chloe was useful.
 
@@ -233,7 +233,7 @@ Any questions before then, just shout.`
   ],
   noresponse: [
     {
-      label: "Chase 1 — After 5 days",
+      label: "Chase 1 â After 5 days",
       sublabel: "Soft nudge if no reply",
       text: `Hi [First name], just circling back on my last message.
 
@@ -246,7 +246,7 @@ If AI is something you want to get your head around this year, the free assessme
 smeaiconsultancy.com/ai-readiness`
     },
     {
-      label: "Chase 2 — Final touch",
+      label: "Chase 2 â Final touch",
       sublabel: "Last message, then move on",
       text: `Hi [First name], last one from me on this.
 
@@ -262,229 +262,29 @@ Good luck with everything.`
 };
 
 const contacts = [
-  { id:1, name:"Raana Lowery", role:"Partner - Head of Professional Support and Training Principal", company:"Express Solicitors", linkedin:"https://www.linkedin.com/in/raana-lowery-37a25832", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Raana,
-
-Saw you're running Express Solicitors.
-
-Most law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:2, name:"Richard Conway", role:"Principal Partner, St James’s Place Wealth Management", company:"St. James’s Place Wealth Management", linkedin:"https://www.linkedin.com/in/richard-conway-87886538", sector:"Wealth/IFA", why:"Wealth managers and IFAs win big from AI right now. Suitability reports and client reviews eat hours that AI can give back.", message:"Hi Richard,
-
-Saw you're a Principal Partner at St James's Place.
-
-Most planners still write suitability reports and client reviews by hand. AI can produce the first draft for you in minutes.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:3, name:"Jamie Allsop", role:"Managing Partner Financial Services - UK", company:"HTEC", linkedin:"https://www.linkedin.com/in/jamie-allsop-35964011", sector:"Financial Services", why:"Financial services firms are seeing the fastest AI uptake in 2026. Client reports and compliance docs are the easiest place to start.", message:"Hi Jamie,
-
-Saw you're heading up the UK financial services side at HTEC.
-
-Most firms still write client reports and compliance docs manually. AI can take the first draft off your plate.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:4, name:"Declan O Sullivan MBA", role:"Managing Partner", company:"MERCURY CONSTRUCTION MANAGEMENT", linkedin:"https://www.linkedin.com/in/declan-o-sullivan-mba-64a47156", sector:"Construction", why:"Construction owners are buried in admin. AI can lift the load on site reports, subcontractor comms and tender packs.", message:"Hi Declan,
-
-Saw you're running MERCURY CONSTRUCTION MANAGEMENT.
-
-Most contractors are buried in site reports, subcontractor comms and tender documents. AI can shave hours off each one.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:5, name:"Yash Dubal", role:"Managing Director", company:"A Y & J Solicitors", linkedin:"https://www.linkedin.com/in/ydubal", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Yash,
-
-Saw you're running A Y & J Solicitors.
-
-Most law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:6, name:"Debbie Kaye", role:"Managing Director", company:"Alexander Kaye Recruitment Ltd", linkedin:"https://www.linkedin.com/in/debbie-kaye-6411b912", sector:"Recruitment", why:"Recruitment agencies are losing ground to AI-first competitors. Job specs, candidate briefs and outreach are all easy AI wins.", message:"Hi Debbie,
-
-Saw you're running Alexander Kaye Recruitment Ltd.
-
-Most agencies still write job specs, candidate briefs and client updates from scratch. AI can do the heavy lifting and keep your tone.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:7, name:"Karen Warren (Healey)", role:"Managing Director", company:"Art of Freight Ltd - (Freight Recruitment)", linkedin:"https://www.linkedin.com/in/karen-warren-healey-86a5851a", sector:"Recruitment", why:"Recruitment agencies are losing ground to AI-first competitors. Job specs, candidate briefs and outreach are all easy AI wins.", message:"Hi Karen,
-
-Saw you're running Art of Freight Ltd - (Freight Recruitment).
-
-Most agencies still write job specs, candidate briefs and client updates from scratch. AI can do the heavy lifting and keep your tone.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:8, name:"Daniel Callis", role:"Managing Director", company:"BAC FABRICATIONS & CONSTRUCTION LIMITED", linkedin:"https://www.linkedin.com/in/daniel-callis-78653427", sector:"Construction", why:"Construction owners are buried in admin. AI can lift the load on site reports, subcontractor comms and tender packs.", message:"Hi Daniel,
-
-Saw you're running BAC FABRICATIONS & CONSTRUCTION LIMITED.
-
-Most contractors are buried in site reports, subcontractor comms and tender documents. AI can shave hours off each one.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:9, name:"Stuart Biggs", role:"Managing Director", company:"BE Recruitment Ltd", linkedin:"https://www.linkedin.com/in/stuart-biggs-b1415289", sector:"Recruitment", why:"Recruitment agencies are losing ground to AI-first competitors. Job specs, candidate briefs and outreach are all easy AI wins.", message:"Hi Stuart,
-
-Saw you're running BE Recruitment Ltd.
-
-Most agencies still write job specs, candidate briefs and client updates from scratch. AI can do the heavy lifting and keep your tone.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:10, name:"Paul Moran", role:"Managing Director", company:"Bp roofing contractors ltd", linkedin:"https://www.linkedin.com/in/paul-moran-23429a83", sector:"Construction", why:"Construction owners are buried in admin. AI can lift the load on site reports, subcontractor comms and tender packs.", message:"Hi Paul,
-
-Saw you're running Bp roofing contractors ltd.
-
-Most contractors are buried in site reports, subcontractor comms and tender documents. AI can shave hours off each one.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"today" },
-  { id:11, name:"Alexander Smith", role:"Managing Director", company:"Alex & Matteo Estate Agents", linkedin:"https://www.linkedin.com/in/alexander-smith-959584b1", sector:"Property", why:"Estate agents have a clear AI advantage right now. Descriptions, follow-ups and landlord updates are quick automation wins.", message:"Hi Alexander,
-
-Saw you're running Alex & Matteo Estate Agents.
-
-Most agents still write property descriptions and landlord updates by hand. AI can draft them in seconds and lift conversion.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:12, name:"Nuri Ahsak", role:"Principal / Owner / Solicitor Advocate (Higher Courts Civil Proceedings ) and Arbitrator", company:"Applerose Solicitors", linkedin:"https://www.linkedin.com/in/nuri-ahsak-4283036a", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Nuri,
-
-Saw you're running Applerose Solicitors.
-
-Most law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:13, name:"Ketan Patel", role:"Managing Director", company:"Artemis Insurance Brokers", linkedin:"https://www.linkedin.com/in/ketan-patel-36965a13", sector:"Insurance", why:"Insurance brokers can save hours each week with AI. Renewals, policy summaries and client packs are ideal first steps.", message:"Hi Ketan,
-
-Saw you're running Artemis Insurance Brokers.
-
-Most brokers still write renewal letters and policy summaries one by one. AI can produce the first draft for you in minutes.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:14, name:"Niall Leyden M.Sc. CFP ®", role:"Founder", company:"Atlantic Wealth Management", linkedin:"https://www.linkedin.com/in/niallleyden", sector:"Wealth/IFA", why:"Wealth managers and IFAs win big from AI right now. Suitability reports and client reviews eat hours that AI can give back.", message:"Hi Niall,
-
-Saw you're running Atlantic Wealth Management.
-
-Most planners still write suitability reports and client reviews by hand. AI can produce the first draft for you in minutes.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:15, name:"Stuart Vines", role:"Managing Dir. & Owner, European In-House Legal, Compliance & Data Privacy Practice", company:"Graff Search", linkedin:"https://www.linkedin.com/in/stuartvines", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Stuart,
-
-Saw you're running Graff Search.
-
-Most law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:16, name:"Zoe Simmons", role:"Owner", company:"Kernow Accountancy", linkedin:"https://www.linkedin.com/in/zoe-simmons-a8258276", sector:"Accountancy", why:"Accountancy practices have the clearest AI win in 2026. Month-end packs, MTD prep and client emails are all ripe for automation.", message:"Hi Zoe,
-
-Saw you're running Kernow Accountancy.
-
-Most practices burn hours on month-end reports, client packs and email replies. AI can cut that work in half without losing accuracy.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:17, name:"Terry Phillips FCCA", role:"Owner", company:"Phillips & Co Accountants", linkedin:"https://www.linkedin.com/in/terry-phillips-fcca-1041485a", sector:"Accountancy", why:"Accountancy practices have the clearest AI win in 2026. Month-end packs, MTD prep and client emails are all ripe for automation.", message:"Hi Terry,
-
-Saw you're running Phillips & Co Accountants.
-
-Most practices burn hours on month-end reports, client packs and email replies. AI can cut that work in half without losing accuracy.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:18, name:"Steve Martin CFPtm Chartered FCSI, IMC", role:"Chief Executive, Chartered Fellow and Certified Financial Planner (CFP)", company:"Smart Financial", linkedin:"https://www.linkedin.com/in/stevemartincfp", sector:"Wealth/IFA", why:"Wealth managers and IFAs win big from AI right now. Suitability reports and client reviews eat hours that AI can give back.", message:"Hi Steve,
-
-Saw you're running Smart Financial.
-
-Most planners still write suitability reports and client reviews by hand. AI can produce the first draft for you in minutes.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:19, name:"Kate Jackson", role:"Owner", company:"Strictly Bookkeeping", linkedin:"https://www.linkedin.com/in/strictlybookkeeping", sector:"Accountancy", why:"Accountancy practices have the clearest AI win in 2026. Month-end packs, MTD prep and client emails are all ripe for automation.", message:"Hi Kate,
-
-Saw you're running Strictly Bookkeeping.
-
-Most practices burn hours on month-end reports, client packs and email replies. AI can cut that work in half without losing accuracy.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" },
-  { id:20, name:"Jordan Willis- CeMAP, CeRER, CCIBS Independent Mortgage Broker", role:"Director", company:"JW Private Finance LTD - Independent Mortgage Brokers", linkedin:"https://www.linkedin.com/in/jordan-willis-cemap-cerer-ccibs-independent-mortgage-broker-26082385", sector:"Mortgage Brokers", why:"Mortgage brokers are sitting on hours of repetitive work each week. Fact-finds and suitability letters are ideal AI tasks.", message:"Hi Jordan,
-
-Saw you're running JW Private Finance LTD - Independent Mortgage Brokers.
-
-Most brokers spend hours on fact-finds, suitability letters and AML chasers. AI can handle the drafting and free up your time.
-
-I run SME AI Consultancy. We help UK firms put AI to work on the boring admin.
-
-Offering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.
-
-Worth 15 minutes?", day:"monday" }
+  { id:1, name:"Raana Lowery", role:"Partner - Head of Professional Support and Training Principal", company:"Express Solicitors", linkedin:"https://www.linkedin.com/in/raana-lowery-37a25832", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Raana,\n\nSaw you're running Express Solicitors.\n\nMost law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:2, name:"Richard Conway", role:"Principal Partner, St Jamesâs Place Wealth Management", company:"St. Jamesâs Place Wealth Management", linkedin:"https://www.linkedin.com/in/richard-conway-87886538", sector:"Wealth/IFA", why:"Wealth managers and IFAs win big from AI right now. Suitability reports and client reviews eat hours that AI can give back.", message:"Hi Richard,\n\nSaw you're a Principal Partner at St James's Place.\n\nMost planners still write suitability reports and client reviews by hand. AI can produce the first draft for you in minutes.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:3, name:"Jamie Allsop", role:"Managing Partner Financial Services - UK", company:"HTEC", linkedin:"https://www.linkedin.com/in/jamie-allsop-35964011", sector:"Financial Services", why:"Financial services firms are seeing the fastest AI uptake in 2026. Client reports and compliance docs are the easiest place to start.", message:"Hi Jamie,\n\nSaw you're heading up the UK financial services side at HTEC.\n\nMost firms still write client reports and compliance docs manually. AI can take the first draft off your plate.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:4, name:"Declan O Sullivan MBA", role:"Managing Partner", company:"MERCURY CONSTRUCTION MANAGEMENT", linkedin:"https://www.linkedin.com/in/declan-o-sullivan-mba-64a47156", sector:"Construction", why:"Construction owners are buried in admin. AI can lift the load on site reports, subcontractor comms and tender packs.", message:"Hi Declan,\n\nSaw you're running MERCURY CONSTRUCTION MANAGEMENT.\n\nMost contractors are buried in site reports, subcontractor comms and tender documents. AI can shave hours off each one.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:5, name:"Yash Dubal", role:"Managing Director", company:"A Y & J Solicitors", linkedin:"https://www.linkedin.com/in/ydubal", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Yash,\n\nSaw you're running A Y & J Solicitors.\n\nMost law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:6, name:"Debbie Kaye", role:"Managing Director", company:"Alexander Kaye Recruitment Ltd", linkedin:"https://www.linkedin.com/in/debbie-kaye-6411b912", sector:"Recruitment", why:"Recruitment agencies are losing ground to AI-first competitors. Job specs, candidate briefs and outreach are all easy AI wins.", message:"Hi Debbie,\n\nSaw you're running Alexander Kaye Recruitment Ltd.\n\nMost agencies still write job specs, candidate briefs and client updates from scratch. AI can do the heavy lifting and keep your tone.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:7, name:"Karen Warren (Healey)", role:"Managing Director", company:"Art of Freight Ltd - (Freight Recruitment)", linkedin:"https://www.linkedin.com/in/karen-warren-healey-86a5851a", sector:"Recruitment", why:"Recruitment agencies are losing ground to AI-first competitors. Job specs, candidate briefs and outreach are all easy AI wins.", message:"Hi Karen,\n\nSaw you're running Art of Freight Ltd - (Freight Recruitment).\n\nMost agencies still write job specs, candidate briefs and client updates from scratch. AI can do the heavy lifting and keep your tone.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:8, name:"Daniel Callis", role:"Managing Director", company:"BAC FABRICATIONS & CONSTRUCTION LIMITED", linkedin:"https://www.linkedin.com/in/daniel-callis-78653427", sector:"Construction", why:"Construction owners are buried in admin. AI can lift the load on site reports, subcontractor comms and tender packs.", message:"Hi Daniel,\n\nSaw you're running BAC FABRICATIONS & CONSTRUCTION LIMITED.\n\nMost contractors are buried in site reports, subcontractor comms and tender documents. AI can shave hours off each one.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:9, name:"Stuart Biggs", role:"Managing Director", company:"BE Recruitment Ltd", linkedin:"https://www.linkedin.com/in/stuart-biggs-b1415289", sector:"Recruitment", why:"Recruitment agencies are losing ground to AI-first competitors. Job specs, candidate briefs and outreach are all easy AI wins.", message:"Hi Stuart,\n\nSaw you're running BE Recruitment Ltd.\n\nMost agencies still write job specs, candidate briefs and client updates from scratch. AI can do the heavy lifting and keep your tone.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:10, name:"Paul Moran", role:"Managing Director", company:"Bp roofing contractors ltd", linkedin:"https://www.linkedin.com/in/paul-moran-23429a83", sector:"Construction", why:"Construction owners are buried in admin. AI can lift the load on site reports, subcontractor comms and tender packs.", message:"Hi Paul,\n\nSaw you're running Bp roofing contractors ltd.\n\nMost contractors are buried in site reports, subcontractor comms and tender documents. AI can shave hours off each one.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"today" },
+  { id:11, name:"Alexander Smith", role:"Managing Director", company:"Alex & Matteo Estate Agents", linkedin:"https://www.linkedin.com/in/alexander-smith-959584b1", sector:"Property", why:"Estate agents have a clear AI advantage right now. Descriptions, follow-ups and landlord updates are quick automation wins.", message:"Hi Alexander,\n\nSaw you're running Alex & Matteo Estate Agents.\n\nMost agents still write property descriptions and landlord updates by hand. AI can draft them in seconds and lift conversion.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:12, name:"Nuri Ahsak", role:"Principal / Owner / Solicitor Advocate (Higher Courts Civil Proceedings ) and Arbitrator", company:"Applerose Solicitors", linkedin:"https://www.linkedin.com/in/nuri-ahsak-4283036a", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Nuri,\n\nSaw you're running Applerose Solicitors.\n\nMost law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:13, name:"Ketan Patel", role:"Managing Director", company:"Artemis Insurance Brokers", linkedin:"https://www.linkedin.com/in/ketan-patel-36965a13", sector:"Insurance", why:"Insurance brokers can save hours each week with AI. Renewals, policy summaries and client packs are ideal first steps.", message:"Hi Ketan,\n\nSaw you're running Artemis Insurance Brokers.\n\nMost brokers still write renewal letters and policy summaries one by one. AI can produce the first draft for you in minutes.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:14, name:"Niall Leyden M.Sc. CFP Â®", role:"Founder", company:"Atlantic Wealth Management", linkedin:"https://www.linkedin.com/in/niallleyden", sector:"Wealth/IFA", why:"Wealth managers and IFAs win big from AI right now. Suitability reports and client reviews eat hours that AI can give back.", message:"Hi Niall,\n\nSaw you're running Atlantic Wealth Management.\n\nMost planners still write suitability reports and client reviews by hand. AI can produce the first draft for you in minutes.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:15, name:"Stuart Vines", role:"Managing Dir. & Owner, European In-House Legal, Compliance & Data Privacy Practice", company:"Graff Search", linkedin:"https://www.linkedin.com/in/stuartvines", sector:"Legal", why:"Solicitor firms are the highest-impact AI use case in 2026. Drafting, file notes and billing narratives are all repeatable tasks that AI handles well.", message:"Hi Stuart,\n\nSaw you're running Graff Search.\n\nMost law firms still write client letters, file notes and billing narratives manually. AI can draft these in seconds while keeping your voice.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:16, name:"Zoe Simmons", role:"Owner", company:"Kernow Accountancy", linkedin:"https://www.linkedin.com/in/zoe-simmons-a8258276", sector:"Accountancy", why:"Accountancy practices have the clearest AI win in 2026. Month-end packs, MTD prep and client emails are all ripe for automation.", message:"Hi Zoe,\n\nSaw you're running Kernow Accountancy.\n\nMost practices burn hours on month-end reports, client packs and email replies. AI can cut that work in half without losing accuracy.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:17, name:"Terry Phillips FCCA", role:"Owner", company:"Phillips & Co Accountants", linkedin:"https://www.linkedin.com/in/terry-phillips-fcca-1041485a", sector:"Accountancy", why:"Accountancy practices have the clearest AI win in 2026. Month-end packs, MTD prep and client emails are all ripe for automation.", message:"Hi Terry,\n\nSaw you're running Phillips & Co Accountants.\n\nMost practices burn hours on month-end reports, client packs and email replies. AI can cut that work in half without losing accuracy.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:18, name:"Steve Martin CFPtm Chartered FCSI, IMC", role:"Chief Executive, Chartered Fellow and Certified Financial Planner (CFP)", company:"Smart Financial", linkedin:"https://www.linkedin.com/in/stevemartincfp", sector:"Wealth/IFA", why:"Wealth managers and IFAs win big from AI right now. Suitability reports and client reviews eat hours that AI can give back.", message:"Hi Steve,\n\nSaw you're running Smart Financial.\n\nMost planners still write suitability reports and client reviews by hand. AI can produce the first draft for you in minutes.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:19, name:"Kate Jackson", role:"Owner", company:"Strictly Bookkeeping", linkedin:"https://www.linkedin.com/in/strictlybookkeeping", sector:"Accountancy", why:"Accountancy practices have the clearest AI win in 2026. Month-end packs, MTD prep and client emails are all ripe for automation.", message:"Hi Kate,\n\nSaw you're running Strictly Bookkeeping.\n\nMost practices burn hours on month-end reports, client packs and email replies. AI can cut that work in half without losing accuracy.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" },
+  { id:20, name:"Jordan Willis- CeMAP, CeRER, CCIBS Independent Mortgage Broker", role:"Director", company:"JW Private Finance LTD - Independent Mortgage Brokers", linkedin:"https://www.linkedin.com/in/jordan-willis-cemap-cerer-ccibs-independent-mortgage-broker-26082385", sector:"Mortgage Brokers", why:"Mortgage brokers are sitting on hours of repetitive work each week. Fact-finds and suitability letters are ideal AI tasks.", message:"Hi Jordan,\n\nSaw you're running JW Private Finance LTD - Independent Mortgage Brokers.\n\nMost brokers spend hours on fact-finds, suitability letters and AML chasers. AI can handle the drafting and free up your time.\n\nI run SME AI Consultancy. We help UK firms put AI to work on the boring admin.\n\nOffering a free AI Readiness Assessment. 15 minutes with our AI agent, then a personalised report. No pitch.\n\nWorth 15 minutes?", day:"monday" }
 ];
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// âââ STATE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 let sentIds = new Set(JSON.parse(localStorage.getItem('sent_ids')||'[]').map(Number));
 let interestedIds = new Set(JSON.parse(localStorage.getItem('interested_ids')||'[]').map(Number));
 let usedPostIds = new Set(JSON.parse(localStorage.getItem('used_post_ids')||'[]').map(Number));
@@ -494,21 +294,21 @@ let activeFollowupTab = {};
 let activeFilter = 'all';
 let todayPostId = null;
 
-// ─── SOCIAL POSTS v2 (Ruben Hassid framework — pattern-interrupt hooks, exact prompts, reader-centric, share triggers) ───
+// âââ SOCIAL POSTS v2 (Ruben Hassid framework â pattern-interrupt hooks, exact prompts, reader-centric, share triggers) âââ
 const SOCIAL_POSTS = {
   generated: "2026-05-23",
   version: "v2",
   posts: [
-    { id:1, hook_type:"contrarian", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"very high", content:"Someone is making good money from you being confused about AI.\n\nIt is not the AI companies.\n\nIt is the people charging £3,000 a day to manage your \"AI transition.\"\n\nI have watched a plumber use ChatGPT to write a quote in 6 minutes.\n\nA nursery manager draft a safeguarding policy in 20 minutes.\n\nA furniture maker answer a month of supplier emails in an afternoon.\n\nNone of them took a course.\n\nNone of them hired anyone.\n\nNone of them read a book about prompting.\n\nThey described their problem in plain English and started testing.\n\nChatGPT is easier to start than Excel.\n\nThe complexity you have been sold is a business model.\n\nHere is what actually works.\n\nPick one thing that wastes your time this week.\n\nOpen ChatGPT.\n\nType: \"I need help with [thing]. Here is what it involves: [describe in two sentences].\"\n\nSee what comes back.\n\nSave this and send it to someone still sitting on the fence." },
+    { id:1, hook_type:"contrarian", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"very high", content:"Someone is making good money from you being confused about AI.\n\nIt is not the AI companies.\n\nIt is the people charging Â£3,000 a day to manage your \"AI transition.\"\n\nI have watched a plumber use ChatGPT to write a quote in 6 minutes.\n\nA nursery manager draft a safeguarding policy in 20 minutes.\n\nA furniture maker answer a month of supplier emails in an afternoon.\n\nNone of them took a course.\n\nNone of them hired anyone.\n\nNone of them read a book about prompting.\n\nThey described their problem in plain English and started testing.\n\nChatGPT is easier to start than Excel.\n\nThe complexity you have been sold is a business model.\n\nHere is what actually works.\n\nPick one thing that wastes your time this week.\n\nOpen ChatGPT.\n\nType: \"I need help with [thing]. Here is what it involves: [describe in two sentences].\"\n\nSee what comes back.\n\nSave this and send it to someone still sitting on the fence." },
     { id:2, hook_type:"pain", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"very high", content:"14 months of \"looking into AI.\"\n\nNot one thing done.\n\nThat is the most common story I hear.\n\nAnd I heard it again last week.\n\nA business owner. Watched the videos. Read the articles. Three webinars.\n\nZero workflows.\n\nWe sat down together.\n\n40 minutes later she had her first AI tool saving time.\n\nThe next morning she messaged me.\n\n\"I saved two hours before lunch.\"\n\nThe information is not your problem.\n\nHere is the test.\n\nName one thing in your business that takes too long.\n\nJust one.\n\nGo to chat.openai.com.\n\nType: \"Help me do [this thing] faster. Here is what it involves: [two sentences].\"\n\nThat is the only start you need.\n\nSave this. Come back to it this week." },
     { id:3, hook_type:"question", topic_cluster:"AI is simpler than you think", format:"short punchy", estimated_engagement:"high", content:"28 of your 40 working hours do not need your brain.\n\nThat is not an insult.\n\nIt is a calculation.\n\nAdmin. Reports. Follow-ups. First drafts. Standard emails.\n\nAI handles all of it.\n\nWhat remains is the 30% that actually needs you.\n\nThe thinking. The relationships. The judgment.\n\nMost founders never reach that 30% because the other 70% fills the day.\n\nHere is how to find your 70%.\n\nWrite down every task you did last week.\n\nMark the ones that were repetitive or could be templated.\n\nThat list is your AI starting point.\n\nWhat does yours look like?\n\nDrop your biggest time drain in the comments.\n\nI will tell you which ones AI can take off your plate today." },
-    { id:4, hook_type:"claim", topic_cluster:"Here's what AI is saving businesses right now", format:"story", estimated_engagement:"very high", content:"A Manchester recruitment firm went from 4 days to 6 hours on shortlisting.\n\nHere is the exact workflow they used.\n\nThey had 40 vacancies a month. CV screening was eating the week.\n\nOne afternoon they mapped where the time was going.\n\nThen they built two prompts.\n\nStep 1: CV screening.\nPaste the job brief into ChatGPT.\nAdd the CVs as text.\nType: \"Score each candidate out of 10 against this brief and explain in 3 bullet points.\"\n45 minutes per vacancy became 4 minutes.\n\nStep 2: First-contact emails.\nTemplate prompt. Candidate name, role, one CV detail.\nPersonalised. Two minutes per vacancy.\n\nNo new software. No new hires. £20 a month.\n\n4 days became 6 hours.\n\nWhat task is eating your week right now?\n\nDrop it in the comments. I will tell you what I would try first." },
+    { id:4, hook_type:"claim", topic_cluster:"Here's what AI is saving businesses right now", format:"story", estimated_engagement:"very high", content:"A Manchester recruitment firm went from 4 days to 6 hours on shortlisting.\n\nHere is the exact workflow they used.\n\nThey had 40 vacancies a month. CV screening was eating the week.\n\nOne afternoon they mapped where the time was going.\n\nThen they built two prompts.\n\nStep 1: CV screening.\nPaste the job brief into ChatGPT.\nAdd the CVs as text.\nType: \"Score each candidate out of 10 against this brief and explain in 3 bullet points.\"\n45 minutes per vacancy became 4 minutes.\n\nStep 2: First-contact emails.\nTemplate prompt. Candidate name, role, one CV detail.\nPersonalised. Two minutes per vacancy.\n\nNo new software. No new hires. Â£20 a month.\n\n4 days became 6 hours.\n\nWhat task is eating your week right now?\n\nDrop it in the comments. I will tell you what I would try first." },
     { id:5, hook_type:"list", topic_cluster:"Here's what AI is saving businesses right now", format:"list", estimated_engagement:"high", content:"5 things your competitors are doing with AI right now.\n\nAnd the exact prompt for each one.\n\n1. First drafts of client reports.\nPaste your meeting notes.\nType: \"Write a first-draft client report. Formal tone. Sections: summary, findings, next steps. 400 words.\"\nSaves 60 to 90 minutes. Every time.\n\n2. Answering enquiries out of hours.\nGo to ChatGPT. Click Explore GPTs, then Create.\nUpload your FAQ doc. Write two sentences about your business.\nIt handles enquiries while you sleep. Setup: 25 minutes. Cost: zero extra.\n\n3. Writing job specs.\nType: \"Write a job description for [role]. Plain English. 400 words. Include responsibilities, requirements, and what a strong applicant looks like.\"\nDone in 3 minutes.\n\n4. Summarising documents before a meeting.\nUpload the PDF. Type: \"Summarise in 10 bullet points. Flag anything needing a decision or carrying a risk.\"\n30 pages in under a minute.\n\n5. Drafting standard emails.\nPaste the email you received.\nType: \"Write a professional reply that [what you need to say]. One paragraph.\"\n3 minutes instead of 20.\n\nAll of it available today on a standard ChatGPT subscription.\n\nSave this. Pass it to whoever is still doing these manually." },
     { id:6, hook_type:"contrarian", topic_cluster:"Here's what AI is saving businesses right now", format:"short punchy", estimated_engagement:"very high", content:"Your staff are not afraid of AI.\n\nThey are afraid you will buy it and expect miracles from them on day one.\n\nI have spoken to enough people in this situation to know the pattern.\n\nThe anxiety is not about losing a job.\n\nIt is about being handed a tool with no training and judged on the results.\n\nHere is what the businesses doing this well have figured out.\n\nThey start with one person.\n\nFind someone curious. Not technical. Curious.\n\nGive them one task to try with AI.\n\nLet them figure it out.\n\nThen let them show everyone else.\n\nBottom-up adoption works better than top-down mandates.\n\nEvery time.\n\nIs there one person in your team who would run with this?\n\nTag them in the comments." },
     { id:7, hook_type:"contrarian", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"Most people asking \"what can AI do?\" are asking the wrong question.\n\nIt leads you down rabbit holes of demos and tutorials.\n\nIt keeps you in thinking mode and out of doing mode.\n\nThe right question is this:\n\n\"What am I doing right now that I hate doing?\"\n\nWrite it down.\n\nThat is your AI use case.\n\nNot a technology choice.\n\nA time choice.\n\nHere is the 10-minute test.\n\nTake your task.\n\nType it into ChatGPT as if you were explaining it to a new employee.\n\nAsk it to help you do it.\n\nSee what happens.\n\nNo course required. No consultant needed.\n\nSave this and try it today." },
-    { id:8, hook_type:"pain", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"Waiting for the right moment to start with AI is costing you £3,000 a month.\n\nNot a made-up number.\n\nThat is what most SMEs lose in unbillable admin time every single month.\n\nTime that AI can take back.\n\nI see the pattern every week.\n\nBusiness owners who know they need to start.\n\nWho agree AI will change things.\n\nWho are waiting for the right moment.\n\nThere is no right moment.\n\nThere is just the work piling up.\n\nAnd a competitor who started six months ago.\n\nThey are not better than you.\n\nThey are faster.\n\nHere is the honest question.\n\nWhat is the single biggest time drain in your business right now?\n\nName it below.\n\nI will tell you whether AI can fix it today." },
+    { id:8, hook_type:"pain", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"Waiting for the right moment to start with AI is costing you Â£3,000 a month.\n\nNot a made-up number.\n\nThat is what most SMEs lose in unbillable admin time every single month.\n\nTime that AI can take back.\n\nI see the pattern every week.\n\nBusiness owners who know they need to start.\n\nWho agree AI will change things.\n\nWho are waiting for the right moment.\n\nThere is no right moment.\n\nThere is just the work piling up.\n\nAnd a competitor who started six months ago.\n\nThey are not better than you.\n\nThey are faster.\n\nHere is the honest question.\n\nWhat is the single biggest time drain in your business right now?\n\nName it below.\n\nI will tell you whether AI can fix it today." },
     { id:9, hook_type:"question", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"high", content:"Only 30% of your week actually needs your brain.\n\nMost founders are shocked by that number.\n\nBut count it up.\n\nAdmin. Emails. First drafts. Reports. Standard responses. Data entry.\n\nNone of that requires what you built your business on.\n\nAnd yet it fills your day.\n\nHere is an exercise worth doing.\n\nTrack your time for one week.\n\nUse any notes app. Just write what you did and how long it took.\n\nAt the end, mark anything that was repetitive, templated, or admin-heavy.\n\nThat pile is your AI starting point.\n\nMost people find it is between 50% and 70% of their week.\n\nWhat would change if you got that time back?\n\nPost your biggest time drain below.\n\nI read every comment." },
-    { id:10, hook_type:"pain", topic_cluster:"A specific sector story", format:"story", estimated_engagement:"very high", content:"A firm of accountants in Cheshire cancelled their Saturday morning meeting.\n\nNot because they stopped caring.\n\nBecause they stopped needing it.\n\nEvery Saturday for years.\n\nTwo hours. Partners only.\n\nGoing through client queries that had built up all week.\n\nNot because they wanted to work Saturdays.\n\nBecause they had no better system.\n\nWe built one in an afternoon.\n\nEvery inbound query gets categorised automatically.\n\nUrgent cases get flagged immediately.\n\nStandard queries get a first-response draft within minutes.\n\nThe Saturday call now lasts 22 minutes.\n\nSome weeks they cancel it entirely.\n\nThe tool they use costs £20 a month.\n\nIf you run an accountancy practice and inbound queries are eating your time, reply here.\n\nI will walk you through what they built. No charge." },
+    { id:10, hook_type:"pain", topic_cluster:"A specific sector story", format:"story", estimated_engagement:"very high", content:"A firm of accountants in Cheshire cancelled their Saturday morning meeting.\n\nNot because they stopped caring.\n\nBecause they stopped needing it.\n\nEvery Saturday for years.\n\nTwo hours. Partners only.\n\nGoing through client queries that had built up all week.\n\nNot because they wanted to work Saturdays.\n\nBecause they had no better system.\n\nWe built one in an afternoon.\n\nEvery inbound query gets categorised automatically.\n\nUrgent cases get flagged immediately.\n\nStandard queries get a first-response draft within minutes.\n\nThe Saturday call now lasts 22 minutes.\n\nSome weeks they cancel it entirely.\n\nThe tool they use costs Â£20 a month.\n\nIf you run an accountancy practice and inbound queries are eating your time, reply here.\n\nI will walk you through what they built. No charge." },
     { id:11, hook_type:"claim", topic_cluster:"A specific sector story", format:"story", estimated_engagement:"very high", content:"A solicitor in Manchester billed 11 extra hours last month.\n\nShe didn't work more.\n\nShe typed less.\n\nCase notes, client letters, file summaries used to eat her afternoons.\n\nNow she talks. AI transcribes and drafts.\n\nShe reviews. Edits what needs editing. Signs off.\n\nHer words. Her judgment. Her expertise.\n\nJust not her typing.\n\nHere is the exact process.\n\nAfter each client call she records a voice note.\n\nShe uploads it to an AI tool.\n\nTypes: \"Turn this into a case note in standard legal format. Flag any actions.\"\n\nDone in 90 seconds.\n\nThat is 20 minutes per client saved.\n\nAt her billing rate, 11 hours is not a small number.\n\nFor a one-person firm, it changes the month.\n\nSave this. Share it with any solicitor you know who is buried in admin." },
     { id:12, hook_type:"contrarian", topic_cluster:"Most SMEs are making this mistake", format:"short punchy", estimated_engagement:"very high", content:"If you're using AI to answer questions, you're wasting it.\n\nThat is what most people do at the start.\n\nType a question in. Get an answer back.\n\nFeel like they're using AI.\n\nThey are not.\n\nThey are doing a more expensive version of Google.\n\nAI is not a question-answering tool.\n\nIt is a workflow tool.\n\nHere is the difference.\n\nQuestion mode: \"What is the best way to write a proposal?\"\n\nWorkflow mode: \"I need to write a proposal for a manufacturing firm in Leeds. Here are my notes from the meeting: [paste notes]. Draft a 3-page proposal in a professional tone.\"\n\nOne saves you 10 minutes.\n\nThe other saves you 3 hours.\n\nSame tool. Different way of using it.\n\nTry the workflow version on one task this week.\n\nSave this for when you need a reminder." },
     { id:13, hook_type:"list", topic_cluster:"A specific sector story", format:"list", estimated_engagement:"high", content:"Financial advisers: your competitors are cutting client review prep time in half.\n\nHere is exactly what they are using.\n\n1. Suitability reports.\nPaste client notes into Claude or ChatGPT.\nType: \"Draft a suitability report. Risk profile: [x]. Objective: [x]. Recommendation: [x].\"\nReview. Edit. Sign off.\n40 minutes becomes 12.\n\n2. Meeting summaries.\nRecord the call or take rough notes.\nType: \"Turn these into a structured meeting summary. Include: decisions made, next steps, open questions.\"\nDone in 3 minutes.\n\n3. Document follow-up.\nType: \"Write a follow-up email to a client asking them to provide [document list]. Friendly but clear. 150 words.\"\nPersonalised. Professional. 90 seconds.\n\n4. Pre-review research.\nType: \"Summarise the performance of [fund] over the last 12 months in plain English. Key points only.\"\nWalk in prepared.\n\nThe compliance work is still yours.\n\nThe thinking is still yours.\n\nThe typing doesn't have to be.\n\nSave this. Share it with an adviser who needs to see it." },
@@ -518,10 +318,10 @@ const SOCIAL_POSTS = {
     { id:17, hook_type:"claim", topic_cluster:"Here's what AI is saving businesses right now", format:"story", estimated_engagement:"very high", content:"This business owner added 2 hours to every Monday without working a single extra minute.\n\nEvery Monday used to start the same way.\n\nTwo hours sorting weekend enquiries.\n\nReading. Deciding priority. Writing responses.\n\nNot strategy. Admin.\n\nNow an AI agent handles all three before he wakes up.\n\nBy 8am there are drafted replies waiting for his approval.\n\nHe reads them. Sends the ones that are right. Tweaks the ones that need it.\n\nOn client calls by 9am.\n\nHere is how you can build the same thing.\n\nGo to ChatGPT. Click Explore GPTs. Click Create.\n\nGive it your company background and your standard reply style.\n\nTest it on 10 real enquiries.\n\nRefine. Then let it draft.\n\nYou stay in control. It does the legwork.\n\nTwo hours. Every Monday. Back.\n\nSave this." },
     { id:18, hook_type:"list", topic_cluster:"AI tool of the week", format:"list", estimated_engagement:"high", content:"3 AI tools your competitors are already using.\n\nAnd the exact thing to try first with each.\n\n1. Claude (claude.ai)\nBetter than ChatGPT for long documents and precise writing.\nTry this: paste a 10-page report and type \"Summarise in 10 bullet points. Flag anything needing a decision or carrying a risk.\"\nEspecially useful for legal, compliance, and financial services.\n\n2. Perplexity (perplexity.ai)\nResearch that used to take an hour takes 5 minutes.\nTry this: type your client's industry and ask \"What are the biggest challenges facing [industry] in the UK right now?\"\nWalk into every client meeting sharper.\n\n3. Notion AI\nIf your team already uses Notion, AI is built in at no extra cost.\nTry this: paste meeting notes and type \"Summarise into a structured action list with owners and deadlines.\"\nNever leave a meeting unclear again.\n\nNone of these cost more than a team lunch.\n\nAll of them will change how you work within a week.\n\nWhich one are you starting with?" },
     { id:19, hook_type:"question", topic_cluster:"AI tool of the week", format:"short punchy", estimated_engagement:"high", content:"Reading 40-page reports before every meeting is not due diligence.\n\nIt is a habit you built before you had a better option.\n\nYou now have a better option.\n\nUpload any document to Claude or ChatGPT.\n\nType: \"Summarise in 10 bullet points. Focus on decisions I need to make and risks I need to know about.\"\n\nDone in 45 seconds.\n\nYou still read the summary.\n\nYou still ask the questions.\n\nYou still make the call.\n\nYou just do not spend 90 minutes on it first.\n\nThis works for board papers, supplier contracts, planning applications, client reports, and CVs.\n\nTry it on the next document that lands on your desk.\n\nSave this for the next time you are about to read a 40-page report at 10pm." },
-    { id:20, hook_type:"claim", topic_cluster:"AI tool of the week", format:"short punchy", estimated_engagement:"high", content:"A tool read a 38-page supplier contract and flagged 4 risks in 90 seconds.\n\nNot a lawyer.\n\nNot a £400-an-hour call.\n\nA tool.\n\nHere is how to use it.\n\nOpen Claude at claude.ai.\n\nPaste the contract text or upload the PDF.\n\nType: \"You are a commercial solicitor reviewing this contract. Flag any clauses that are unusual, risky, or heavily favour the other party. Explain each one in plain English.\"\n\nRead the output.\n\nIt will not replace legal review for high-stakes contracts.\n\nBut for supplier agreements and terms you are asked to sign quickly?\n\nIt gives you the questions to ask before you sign.\n\nMost SMEs cannot afford legal review on every supplier agreement.\n\nThis is the next best thing.\n\nTry it on the next contract that lands in your inbox." },
+    { id:20, hook_type:"claim", topic_cluster:"AI tool of the week", format:"short punchy", estimated_engagement:"high", content:"A tool read a 38-page supplier contract and flagged 4 risks in 90 seconds.\n\nNot a lawyer.\n\nNot a Â£400-an-hour call.\n\nA tool.\n\nHere is how to use it.\n\nOpen Claude at claude.ai.\n\nPaste the contract text or upload the PDF.\n\nType: \"You are a commercial solicitor reviewing this contract. Flag any clauses that are unusual, risky, or heavily favour the other party. Explain each one in plain English.\"\n\nRead the output.\n\nIt will not replace legal review for high-stakes contracts.\n\nBut for supplier agreements and terms you are asked to sign quickly?\n\nIt gives you the questions to ask before you sign.\n\nMost SMEs cannot afford legal review on every supplier agreement.\n\nThis is the next best thing.\n\nTry it on the next contract that lands in your inbox." },
     { id:21, hook_type:"contrarian", topic_cluster:"Prediction / industry take", format:"short punchy", estimated_engagement:"very high", content:"In 24 months, firms that write proposals from scratch will lose on price and speed.\n\nNot because they are worse at the work.\n\nBecause they are slower to pitch it.\n\nThe firms doing this now submit proposals in a third of the time.\n\nMore proposals. Better ones. Same team.\n\nHere is what they do.\n\nThey keep a master company document.\n\nServices. Case studies. Team profiles. Previous results.\n\nThey paste the tender brief into ChatGPT.\n\nType: \"Using this company document [attached], write a proposal response for this brief [paste brief]. Include: executive summary, our approach, relevant experience, pricing rationale.\"\n\nFirst draft in 15 minutes.\n\nNot final. Not perfect.\n\nBut 80% there.\n\nThey refine the 20%.\n\nWhile a competitor is still staring at a blank page.\n\nThe window to be first in your sector is still open.\n\nNot for long.\n\nSave this." },
     { id:22, hook_type:"question", topic_cluster:"Prediction / industry take", format:"short punchy", estimated_engagement:"high", content:"The businesses that start with AI this year will not look back.\n\nThe ones that don't will barely recognise themselves in three years.\n\nNot because AI is dramatic.\n\nBecause the compound effect of small efficiency gains is.\n\nThink about it this way.\n\nBusiness A saves 10 hours a week from month one.\n\nThat is 520 hours a year.\n\nReinvested into client work. Sales. Strategy. Actually running the business.\n\nBusiness B saves nothing.\n\nAfter three years the gap is not 10 hours a week.\n\nIt is an entirely different business.\n\nThis is not a technology story.\n\nIt is a compounding story.\n\nYou understand compounding.\n\nYou have watched it work in other parts of your business.\n\nThis is the same thing.\n\nThe gap between the businesses that started and those that didn't widens every month.\n\nWhich business are you?" },
-    { id:23, hook_type:"claim", topic_cluster:"Mark's personal journey/vulnerability", format:"story", estimated_engagement:"very high", content:"I built an AI employee last month.\n\nIt costs me £20.\n\nIt handles the first contact with every enquiry we get.\n\nIt asks qualifying questions.\n\nIt assesses AI readiness.\n\nIt writes a personalised report for each person.\n\nIt books the follow-up if they want one.\n\nAll without me.\n\nI didn't code it.\n\nI didn't hire a developer.\n\nI described what I wanted in plain English.\n\nThen I tested it until it worked.\n\nSix months ago I thought this was only for enterprise teams.\n\nI was wrong.\n\nHere is how you can build something similar.\n\nGo to ChatGPT. Click Explore GPTs. Click Create.\n\nWrite what you want your AI assistant to do in plain language.\n\nGive it a task.\n\nTest it 10 times.\n\nRefine it.\n\nThat is the whole process.\n\nWhat would your AI assistant handle if you had one?" },
+    { id:23, hook_type:"claim", topic_cluster:"Mark's personal journey/vulnerability", format:"story", estimated_engagement:"very high", content:"I built an AI employee last month.\n\nIt costs me Â£20.\n\nIt handles the first contact with every enquiry we get.\n\nIt asks qualifying questions.\n\nIt assesses AI readiness.\n\nIt writes a personalised report for each person.\n\nIt books the follow-up if they want one.\n\nAll without me.\n\nI didn't code it.\n\nI didn't hire a developer.\n\nI described what I wanted in plain English.\n\nThen I tested it until it worked.\n\nSix months ago I thought this was only for enterprise teams.\n\nI was wrong.\n\nHere is how you can build something similar.\n\nGo to ChatGPT. Click Explore GPTs. Click Create.\n\nWrite what you want your AI assistant to do in plain language.\n\nGive it a task.\n\nTest it 10 times.\n\nRefine it.\n\nThat is the whole process.\n\nWhat would your AI assistant handle if you had one?" },
     { id:24, hook_type:"pain", topic_cluster:"Mark's personal journey/vulnerability", format:"story", estimated_engagement:"very high", content:"I spent three years helping CEOs fix their bodies.\n\nPeak performance. Metabolic health. Long days, sharp mind.\n\nThen I kept noticing the same thing in every conversation.\n\nThey were not struggling with their bodies.\n\nThey were struggling with their time.\n\nSmart, capable people.\n\nBuried in work that should not require a smart capable person.\n\nAdmin. Reporting. First drafts. Approvals. The endless pile.\n\nThat is not a health problem.\n\nThat is a systems problem.\n\nSo I changed lanes.\n\nFrom executive coaching to AI consultancy.\n\nSame people. Different lever.\n\nBecause the highest-value thing a business owner can do is think clearly and act fast.\n\nAI buys that back.\n\nThat is the work I want to be doing.\n\nIf you are buried in work that should not need you, I want to hear about it.\n\nWhat is the thing eating your week?" },
     { id:25, hook_type:"contrarian", topic_cluster:"Mark's personal journey/vulnerability", format:"story", estimated_engagement:"very high", content:"I thought AI was mostly hype.\n\nI said that publicly.\n\nI thought it was for big tech firms with data teams.\n\nI thought SMEs would be last to see any real benefit.\n\nI was wrong on all three.\n\nThe thing that changed my mind:\n\nA 58-year-old solicitor in Stockport.\n\nShe was not interested in the technology.\n\nShe was not interested in productivity metrics.\n\nShe got her Thursday afternoons back.\n\nFour hours she used to spend on case summaries and client letters.\n\nGone.\n\nNot her expertise. Not her judgment. Not her client relationships.\n\nJust the typing.\n\nThat is when I stopped talking about AI and started doing something about it.\n\nIf you have been sceptical, I understand.\n\nI was there.\n\nBut if there is one thing I would ask you to try:\n\nName the task that eats your Thursday afternoon.\n\nOpen ChatGPT.\n\nAsk it to help.\n\nJust once." },
     { id:26, hook_type:"question", topic_cluster:"Mark's personal journey/vulnerability", format:"short punchy", estimated_engagement:"high", content:"When did you last have a Friday afternoon with nothing in it?\n\nNot a half-day off.\n\nNot working from home with one eye on your phone.\n\nActually clear.\n\nFor most business owners I speak to, the answer is \"I can't remember.\"\n\nThat is not a badge of honour.\n\nIt is a signal.\n\nHere is what the founders who have Friday afternoon back all have in common.\n\nThey mapped everything eating their week.\n\nThey identified the repeatable tasks.\n\nThey built AI systems for those tasks one at a time.\n\nOver three to four months.\n\nOne workflow per week.\n\nFriday afternoon was not a gift.\n\nIt was a build.\n\nIf you want to start that build, tell me what is filling your Fridays right now.\n\nI will tell you where I would start." },
@@ -541,7 +341,7 @@ function save() {
   } catch(e) {}
 }
 
-// ─── TABS ────────────────────────────────────────────────────────────────────
+// âââ TABS ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function switchTab(tab) {
   activeTab = tab;
   document.getElementById('tab-outreach').style.display = tab === 'outreach' ? 'flex' : 'none';
@@ -550,7 +350,7 @@ function switchTab(tab) {
   if (tab === 'social') renderSocial();
 }
 
-// ─── PROGRESS ────────────────────────────────────────────────────────────────
+// âââ PROGRESS ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function updateProgress() {
   const today = contacts.filter(c => c.day==='today');
   const sent = today.filter(c => sentIds.has(c.id)).length;
@@ -558,7 +358,7 @@ function updateProgress() {
   document.getElementById('progressText').textContent = sent+' / '+today.length+' sent';
 }
 
-// ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+// âââ SIDEBAR âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function renderSidebar() {
   ['contactList','mondayList'].forEach(id => document.getElementById(id).innerHTML='');
   contacts.forEach(c => {
@@ -575,14 +375,14 @@ function renderSidebar() {
         <div class="contact-name">${c.name}</div>
         <div class="contact-company">${c.company}</div>
       </div>
-      ${isInterested ? '<div class="interested-dot"></div>' : (isSent ? '<div class="status-icon">✓</div>' : '')}
+      ${isInterested ? '<div class="interested-dot"></div>' : (isSent ? '<div class="status-icon">â</div>' : '')}
     `;
     div.onclick = () => selectContact(c.id);
     document.getElementById(c.day==='today'?'contactList':'mondayList').appendChild(div);
   });
 }
 
-// ─── CONTACT VIEW ────────────────────────────────────────────────────────────
+// âââ CONTACT VIEW ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function selectContact(id) {
   activeId = id;
   const c = contacts.find(x=>x.id===id);
@@ -607,18 +407,18 @@ function renderPanel(c, isInterested, isSent) {
     <div class="why-block"><strong>Why them</strong>${c.why}</div>
 
     <div class="message-block">
-      <div class="block-label">Initial DM — copy and paste into LinkedIn</div>
+      <div class="block-label">Initial DM â copy and paste into LinkedIn</div>
       <div class="message-text">${c.message}</div>
     </div>
 
     <div class="action-bar">
       <button class="btn btn-copy" id="copyBtn" onclick="copyInitial(${c.id})">Copy message</button>
-      <a class="btn btn-linkedin" href="${c.linkedin}" target="_blank" rel="noopener">Open LinkedIn ↗</a>
+      <a class="btn btn-linkedin" href="${c.linkedin}" target="_blank" rel="noopener">Open LinkedIn â</a>
       <button class="btn btn-interested ${isInterested?'flagged':''}" id="intBtn" onclick="toggleInterested(${c.id})">
         ${isInterested ? 'Interested' : 'Flag interested'}
       </button>
       <button class="btn btn-sent ${isSent?'marked':''}" id="sentBtn" onclick="markSent(${c.id})">
-        ${isSent ? '✓ Sent' : 'Mark sent'}
+        ${isSent ? 'â Sent' : 'Mark sent'}
       </button>
     </div>
 
@@ -648,7 +448,7 @@ function renderFollowupTabs(contactId) {
   const current = activeFollowupTab[contactId] || 0;
 
   tabsEl.innerHTML = allSteps.map((f,i) => `
-    <button class="followup-tab ${i===current?'active':''}" onclick="setFollowupTab(${contactId},${i})">${f.label.split('—')[0].trim()}</button>
+    <button class="followup-tab ${i===current?'active':''}" onclick="setFollowupTab(${contactId},${i})">${f.label.split('â')[0].trim()}</button>
   `).join('');
 
   textEl.textContent = allSteps[current].text;
@@ -691,7 +491,7 @@ function copyFollowup(contactId) {
 function markSent(id) {
   sentIds.add(id); save(); updateProgress(); renderSidebar();
   const btn=document.getElementById('sentBtn');
-  if(btn){btn.textContent='✓ Sent';btn.classList.add('marked');}
+  if(btn){btn.textContent='â Sent';btn.classList.add('marked');}
   const next=contacts.find(c=>c.id>id&&!sentIds.has(c.id)&&c.day==='today');
   if(next) setTimeout(()=>selectContact(next.id),400);
 }
@@ -702,12 +502,12 @@ function toggleInterested(id) {
   selectContact(id);
 }
 
-// ─── SOCIAL CONTENT ──────────────────────────────────────────────────────────
+// âââ SOCIAL CONTENT ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function renderSocial() {
   const today = new Date().toISOString().slice(0,10);
 
   // Best-effort: try to load tracker to find today's post ID
-  // This will fail silently when opened via file:// — that's fine
+  // This will fail silently when opened via file:// â that's fine
   fetch('linkedin-post-tracker.json')
     .then(r => r.ok ? r.json() : null)
     .then(tracker => {
@@ -732,7 +532,7 @@ function renderPosts() {
 
   let html = '';
   if (socialPosts.research_summary) {
-    html += `<div class="research-summary"><strong>Research Summary — what the research found</strong>${socialPosts.research_summary}</div>`;
+    html += `<div class="research-summary"><strong>Research Summary â what the research found</strong>${socialPosts.research_summary}</div>`;
   }
 
   ordered.forEach(p => {
@@ -784,7 +584,7 @@ function markPostUsed(id) {
   if(btn){btn.textContent='Used';btn.classList.add('marked');}
 }
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
+// âââ INIT ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 renderSidebar();
 updateProgress();
 const firstUnsent = contacts.find(c=>c.day==='today'&&!sentIds.has(c.id));

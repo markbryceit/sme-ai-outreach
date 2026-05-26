@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SME AI â LinkedIn Outreach Tool</title>
+<title>SME AI - LinkedIn Outreach Tool</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f111a; color: #e8eaf0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -129,7 +129,7 @@
 <body>
 
 <div class="topbar">
-  <div class="topbar-title"><span>SME AI</span> â Outreach</div>
+  <div class="topbar-title"><span>SME AI</span> - Outreach</div>
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('outreach')">Daily DMs</button>
     <button class="tab-btn" onclick="switchTab('social')">Social Content</button>
@@ -146,9 +146,9 @@
 <!-- OUTREACH TAB -->
 <div class="main" id="tab-outreach">
   <div class="sidebar">
-    <div class="sidebar-header">Today â Send 10</div>
+    <div class="sidebar-header">Today - Send 10</div>
     <div id="contactList"></div>
-    <div class="sidebar-divider">Monday â 10 more</div>
+    <div class="sidebar-divider">Monday - 10 more</div>
     <div id="mondayList"></div>
   </div>
   <div class="panel" id="panel">
@@ -188,7 +188,7 @@
 const FOLLOWUPS = {
   interested: [
     {
-      label: "Step 1 â They said yes",
+      label: "Step 1 - They said yes",
       sublabel: "Send this immediately",
       text: `Brilliant, glad you're up for it.
 
@@ -209,7 +209,7 @@ I review every report personally before it goes out.
 smeaiconsultancy.com/ai-readiness`
     },
     {
-      label: "Step 2 â No booking after 2 days",
+      label: "Step 2 - No booking after 2 days",
       sublabel: "If they said yes but haven't booked",
       text: `Hi [First name], just making sure the link came through okay.
 
@@ -220,7 +220,7 @@ smeaiconsultancy.com/ai-readiness
 No sales call. Just a proper look at where AI fits your business.`
     },
     {
-      label: "Step 3 â After their call with Chloe",
+      label: "Step 3 - After their call with Chloe",
       sublabel: "Send once they've completed the call",
       text: `Hope the call with Chloe was useful.
 
@@ -233,7 +233,7 @@ Any questions before then, just shout.`
   ],
   noresponse: [
     {
-      label: "Chase 1 â After 5 days",
+      label: "Chase 1 - After 5 days",
       sublabel: "Soft nudge if no reply",
       text: `Hi [First name], just circling back on my last message.
 
@@ -246,7 +246,7 @@ If AI is something you want to get your head around this year, the free assessme
 smeaiconsultancy.com/ai-readiness`
     },
     {
-      label: "Chase 2 â Final touch",
+      label: "Chase 2 - Final touch",
       sublabel: "Last message, then move on",
       text: `Hi [First name], last one from me on this.
 
@@ -294,7 +294,7 @@ let activeFollowupTab = {};
 let activeFilter = 'all';
 let todayPostId = null;
 
-// âââ SOCIAL POSTS v2 (Ruben Hassid framework â pattern-interrupt hooks, exact prompts, reader-centric, share triggers) âââ
+// âââ SOCIAL POSTS v2 (Ruben Hassid framework - pattern-interrupt hooks, exact prompts, reader-centric, share triggers) âââ
 const SOCIAL_POSTS = {
   generated: "2026-05-23",
   version: "v2",
@@ -375,7 +375,7 @@ function renderSidebar() {
         <div class="contact-name">${c.name}</div>
         <div class="contact-company">${c.company}</div>
       </div>
-      ${isInterested ? '<div class="interested-dot"></div>' : (isSent ? '<div class="status-icon">â</div>' : '')}
+      ${isInterested ? '<div class="interested-dot"></div>' : (isSent ? '<div class="status-icon">✓</div>' : '')}
     `;
     div.onclick = () => selectContact(c.id);
     document.getElementById(c.day==='today'?'contactList':'mondayList').appendChild(div);
@@ -407,18 +407,18 @@ function renderPanel(c, isInterested, isSent) {
     <div class="why-block"><strong>Why them</strong>${c.why}</div>
 
     <div class="message-block">
-      <div class="block-label">Initial DM â copy and paste into LinkedIn</div>
+      <div class="block-label">Initial DM - copy and paste into LinkedIn</div>
       <div class="message-text">${c.message}</div>
     </div>
 
     <div class="action-bar">
       <button class="btn btn-copy" id="copyBtn" onclick="copyInitial(${c.id})">Copy message</button>
-      <a class="btn btn-linkedin" href="${c.linkedin}" target="_blank" rel="noopener">Open LinkedIn â</a>
+      <a class="btn btn-linkedin" href="${c.linkedin}" target="_blank" rel="noopener">Open LinkedIn -></a>
       <button class="btn btn-interested ${isInterested?'flagged':''}" id="intBtn" onclick="toggleInterested(${c.id})">
         ${isInterested ? 'Interested' : 'Flag interested'}
       </button>
       <button class="btn btn-sent ${isSent?'marked':''}" id="sentBtn" onclick="markSent(${c.id})">
-        ${isSent ? 'â Sent' : 'Mark sent'}
+        ${isSent ? '✓ Sent' : 'Mark sent'}
       </button>
     </div>
 
@@ -448,7 +448,7 @@ function renderFollowupTabs(contactId) {
   const current = activeFollowupTab[contactId] || 0;
 
   tabsEl.innerHTML = allSteps.map((f,i) => `
-    <button class="followup-tab ${i===current?'active':''}" onclick="setFollowupTab(${contactId},${i})">${f.label.split('â')[0].trim()}</button>
+    <button class="followup-tab ${i===current?'active':''}" onclick="setFollowupTab(${contactId},${i})">${f.label.split(' - ')[0].trim()}</button>
   `).join('');
 
   textEl.textContent = allSteps[current].text;
@@ -491,7 +491,7 @@ function copyFollowup(contactId) {
 function markSent(id) {
   sentIds.add(id); save(); updateProgress(); renderSidebar();
   const btn=document.getElementById('sentBtn');
-  if(btn){btn.textContent='â Sent';btn.classList.add('marked');}
+  if(btn){btn.textContent='✓ Sent';btn.classList.add('marked');}
   const next=contacts.find(c=>c.id>id&&!sentIds.has(c.id)&&c.day==='today');
   if(next) setTimeout(()=>selectContact(next.id),400);
 }
@@ -507,7 +507,7 @@ function renderSocial() {
   const today = new Date().toISOString().slice(0,10);
 
   // Best-effort: try to load tracker to find today's post ID
-  // This will fail silently when opened via file:// â that's fine
+  // This will fail silently when opened via file:// - that's fine
   fetch('linkedin-post-tracker.json')
     .then(r => r.ok ? r.json() : null)
     .then(tracker => {
@@ -532,7 +532,7 @@ function renderPosts() {
 
   let html = '';
   if (socialPosts.research_summary) {
-    html += `<div class="research-summary"><strong>Research Summary â what the research found</strong>${socialPosts.research_summary}</div>`;
+    html += `<div class="research-summary"><strong>Research Summary - what the research found</strong>${socialPosts.research_summary}</div>`;
   }
 
   ordered.forEach(p => {
@@ -590,6 +590,84 @@ updateProgress();
 const firstUnsent = contacts.find(c=>c.day==='today'&&!sentIds.has(c.id));
 if(firstUnsent) selectContact(firstUnsent.id);
 
+</script>
+
+<style>
+.virality-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.virality-high { background: #1a3a1a; color: #66bb6a; border: 1px solid #2e7d32; }
+.virality-mid { background: #2a2000; color: #f9a825; border: 1px solid #f9a825; }
+.virality-low { background: #2a1a1a; color: #ef5350; border: 1px solid #c62828; }
+.followup-section { margin-top: 14px; padding: 12px; background: #1a1f2e; border: 1px solid #252a3d; border-radius: 6px; }
+.followup-label { font-size: 11px; color: #7a8098; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.followup-msg { margin-bottom: 10px; font-size: 13px; color: #cdd0dc; line-height: 1.5; }
+.followup-msg strong { color: #a0a6bc; font-size: 12px; display: block; margin-bottom: 4px; }
+</style>
+<script>
+function calcViralityScore(post) {
+  let score = 0;
+  const content = post.content || '';
+  const firstLine = content.split('\n')[0] || '';
+  const hookScores = { contrarian: 35, pain: 32, claim: 30, list: 25, question: 20 };
+  score += hookScores[post.hook_type] || 15;
+  if (post.format === 'short punchy') score += 8;
+  else if (post.format === 'story') score += 5;
+  else if (post.format === 'list') score += 3;
+  if (post.estimated_engagement === 'very high') score += 10;
+  else if (post.estimated_engagement === 'high') score += 5;
+  if (/\d+/.test(firstLine)) score += 10;
+  if (/\b(I |I've|I'm|my |me )/.test(content.substring(0, 120))) score += 8;
+  const lastPart = content.substring(content.length - 100);
+  if (/\?/.test(lastPart) || /agree|comment|thoughts|tell me/i.test(lastPart)) score += 5;
+  if (/AI|ChatGPT|Google|OpenAI|GPT|Claude/i.test(firstLine)) score += 8;
+  return Math.min(100, score);
+}
+
+function buildFollowupSection(contactId, isInterested) {
+  return '<div class="followup-section"><div class="followup-label">Follow-up sequence ready</div>' +
+    '<div class="followup-msg"><strong>Message 2 (3 days after Message 1):</strong>' +
+    'Just checking this landed okay. Happy to share the full report from the last AI Readiness Assessment I ran, might give you a sense of what to expect.</div>' +
+    '<div class="followup-msg"><strong>Message 3 (7 days after Message 1):</strong>' +
+    'Last one from me. If the timing is off, no worries at all. The offer stays open whenever you are ready to take a look.</div></div>';
+}
+
+function addViralityScores() {
+  const cards = document.querySelectorAll('.post-card');
+  cards.forEach((card, i) => {
+    if (card.querySelector('.virality-badge')) return;
+    const post = socialPosts.posts[i];
+    if (!post) return;
+    const score = calcViralityScore(post);
+    const cls = score >= 70 ? 'virality-high' : score >= 50 ? 'virality-mid' : 'virality-low';
+    const label = score >= 70 ? 'High virality' : score >= 50 ? 'Medium virality' : 'Lower virality';
+    const badge = document.createElement('span');
+    badge.className = 'virality-badge ' + cls;
+    badge.textContent = score + '/100 - ' + label;
+    const meta = card.querySelector('.post-meta');
+    if (meta) meta.appendChild(badge);
+  });
+}
+
+// Patch renderSocial to inject scores after rendering
+const _origRenderSocial = typeof renderSocial === 'function' ? renderSocial : null;
+if (_origRenderSocial) {
+  window.renderSocial = function() {
+    _origRenderSocial.apply(this, arguments);
+    setTimeout(addViralityScores, 50);
+  };
+}
+
+// Run on load
+document.addEventListener('DOMContentLoaded', function() { setTimeout(addViralityScores, 200); });
+setTimeout(addViralityScores, 500);
 </script>
 </body>
 </html>

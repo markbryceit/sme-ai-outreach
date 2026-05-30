@@ -363,66 +363,206 @@ body.desktop-view .desktop-shell { display: block; }
 <script>
 // ── DATA ────────────────────────────────────────────────────────────────────
 const PROSPECTS = [
-  { id:1, name:"Daniel Rees", meta:"Partner · Rees Commercial Solicitors Ltd", sector:"Legal",
-    url:"https://www.linkedin.com/in/daniel-rees-commercial-law",
-    msg:`Hi Daniel, hope the week is going well.\n\nQuick one from a fellow business owner.\n\nCommercial solicitors spend hours each week on contract summaries and client briefings.\n\nAI drafts these in minutes now.\n\nYou review and sign off rather than write from scratch.\n\nI run a free 15 minute AI Readiness Assessment for SME firm owners.\n\nNo pitch. Just a clear report on where AI saves your practice the most time.\n\nWorth 15 minutes?` },
-  { id:2, name:"Nicola Brennan", meta:"Director · Brennan Family Law Ltd", sector:"Legal",
-    url:"https://www.linkedin.com/in/nicola-brennan-family-law",
-    msg:`Hi Nicola, hope work is steady at Brennan.\n\nA quick note as one business owner to another.\n\nFamily law involves a lot of repeat paperwork. Position statements, client summaries, correspondence.\n\nAI now handles the first draft of all of it.\n\nYou shape and sign off rather than type from scratch.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders. No pitch involved.\n\nYou get a clear report on the best time savers for your firm.\n\nWould that be useful?` },
-  { id:3, name:"Paul Ashton", meta:"Managing Director · Ashton Business Law Ltd", sector:"Legal",
-    url:"https://www.linkedin.com/in/paul-ashton-business-law",
-    msg:`Hi Paul, hope all is good at Ashton.\n\nQuick thought as a fellow MD.\n\nBusiness solicitors lose a lot of hours to shareholder agreements, terms reviews, and client packs.\n\nMost of that drafting work AI can do in minutes now.\n\nYou still own every word. You just stop writing from scratch.\n\nI run a free 15 minute AI Readiness Assessment for SME owners. No sales pitch.\n\nJust a tailored report on where AI saves you most.\n\nWorth a look?` },
-  { id:4, name:"Claire Foster", meta:"Director · Foster Accounts Ltd", sector:"Accountancy",
-    url:"https://www.linkedin.com/in/claire-foster-accounts",
-    msg:`Hi Claire, hope things are good at Foster Accounts.\n\nQuick one as a fellow business owner.\n\nBookkeeping and accountancy firms lose hours each week to management reports and client emails.\n\nAI drafts month-end summaries, follow-ups, and MTD reminders in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a personalised report on the biggest time savers for your practice.\n\nWorth 15 minutes?` },
-  { id:5, name:"Andrew Whitfield", meta:"Partner · Whitfield and Brown Chartered Accountants", sector:"Accountancy",
-    url:"https://www.linkedin.com/in/andrew-whitfield-chartered-accountant",
-    msg:`Hi Andrew, hope the firm is keeping busy.\n\nQuick note from a fellow business owner.\n\nChartered accountants spend a lot of time on client correspondence and reporting that follows a repeatable pattern.\n\nAI now handles first drafts of all of that.\n\nYou review and refine. Not write from scratch.\n\nI offer a free 15 minute AI Readiness Assessment for SME owners. No sales pitch attached.\n\nJust a clear report on where your firm saves the most time.\n\nWould that be useful?` },
-  { id:6, name:"Priya Mehta", meta:"Founder · Mehta Accounting Services Ltd", sector:"Accountancy",
-    url:"https://www.linkedin.com/in/priya-mehta-accounting",
-    msg:`Hi Priya, hope all is well.\n\nQuick one as one founder to another.\n\nSmall accounting practices often need more capacity without more headcount.\n\nAI now drafts client letters, management accounts commentary, and tax summaries in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a tailored report on what to automate first in your practice.\n\nWorth a look?` },
-  { id:7, name:"Lee Cooper", meta:"Director · Cooper Mortgage Solutions Ltd", sector:"Mortgage",
-    url:"https://www.linkedin.com/in/lee-cooper-mortgage",
-    msg:`Hi Lee, hope business is steady.\n\nQuick thought from a fellow business owner.\n\nMost brokers are still writing suitability letters and chasing AML docs by hand every week.\n\nAI now drafts fact-find summaries and suitability letters in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME owners. No pitch attached.\n\nYou get a clear report on what to automate first.\n\nWorth 15 minutes?` },
-  { id:8, name:"Emma Standish", meta:"Founder · Standish Financial Ltd", sector:"Mortgage",
-    url:"https://www.linkedin.com/in/emma-standish-mortgage-adviser",
-    msg:`Hi Emma, hope the caseload is manageable.\n\nQuick one as one founder to another.\n\nBrokers running lean teams lose hours each week to follow-up emails and client packs.\n\nAI now drafts most of that in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders. No sales pitch.\n\nJust a personalised report on where AI saves you time.\n\nWould that be useful?` },
-  { id:9, name:"Chris Daley", meta:"Managing Director · Daley Wealth Management Ltd", sector:"Wealth",
-    url:"https://www.linkedin.com/in/chris-daley-wealth-management",
-    msg:`Hi Chris, hope all is well at Daley.\n\nQuick note from a fellow MD.\n\nWealth firms lose weeks each year to suitability reports and client review packs.\n\nAI now drafts these in minutes. You review rather than write.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a clear report on the biggest time savers for your practice.\n\nWorth a look?` },
-  { id:10, name:"Helen Thorn", meta:"Director · Thorn Independent Financial Advisers Ltd", sector:"Wealth",
-    url:"https://www.linkedin.com/in/helen-thorn-ifa",
-    msg:`Hi Helen, hope the practice is going well.\n\nQuick one as a fellow business owner.\n\nIFAs spend a lot of time on meeting summaries and review letters.\n\nAI now handles the first draft of all of it in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME owners. No pitch involved.\n\nYou get a tailored report on where AI saves your firm most.\n\nWould that be useful?` },
-  { id:11, name:"Gary Higgins", meta:"Managing Director · Higgins Civil Engineering Ltd", sector:"Construction",
-    url:"https://www.linkedin.com/in/gary-higgins-civil-engineering",
-    msg:`Hi Gary, hope sites are running well.\n\nQuick one as a fellow MD.\n\nCivil engineering firms lose hours each week to tender documents, RAMS, and project reports.\n\nAI now drafts these in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No sales pitch.\n\nYou get a tailored report on the best wins for your firm.\n\nWorth 15 minutes?` },
-  { id:12, name:"Steven Thorpe", meta:"Director · Thorpe Building Services Ltd", sector:"Construction",
-    url:"https://www.linkedin.com/in/steven-thorpe-building",
-    msg:`Hi Steven, hope work is steady.\n\nQuick note from a fellow business owner.\n\nBuilding contractors lose time each week to quotes, progress reports, and client emails.\n\nAI drafts most of that in minutes. You review and send.\n\nI offer a free 15 minute AI Readiness Assessment for SME owners. No pitch.\n\nJust a clear report on the top time savers for your firm.\n\nWould that be useful?` },
-  { id:13, name:"Wayne Barker", meta:"Founder & MD · Barker Electrical Contractors Ltd", sector:"Construction",
-    url:"https://www.linkedin.com/in/wayne-barker-electrical",
-    msg:`Hi Wayne, hope all is good at Barker.\n\nQuick one from one MD to another.\n\nElectrical contractors spend hours on job reports, compliance docs, and client updates.\n\nAI now drafts most of that in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a personalised report on the biggest wins for your business.\n\nWorth a look?` },
-  { id:14, name:"Lisa Connell", meta:"Director · Connell Healthcare Staffing Ltd", sector:"Recruitment",
-    url:"https://www.linkedin.com/in/lisa-connell-healthcare-staffing",
-    msg:`Hi Lisa, hope the desk is busy.\n\nQuick thought from a fellow business owner.\n\nHealthcare recruiters lose time each day to candidate briefs, job specs, and client updates.\n\nAI now drafts all of these in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a tailored report on the top time savers for your agency.\n\nWorth 15 minutes?` },
-  { id:15, name:"Pete Rawlinson", meta:"Founder · Rawlinson Technical Recruitment Ltd", sector:"Recruitment",
-    url:"https://www.linkedin.com/in/pete-rawlinson-technical-recruitment",
-    msg:`Hi Pete, hope all is good at Rawlinson.\n\nQuick one from one founder to another.\n\nTechnical recruiters lose hours each week to job specs and candidate sourcing emails.\n\nAI drafts these in minutes, freeing you for placements.\n\nI offer a free 15 minute AI Readiness Assessment for SME owners. No sales pitch.\n\nJust a personalised report on what to automate first.\n\nWould that be useful?` },
-  { id:16, name:"Fiona Walsh", meta:"Managing Director · Walsh Executive Search Ltd", sector:"Recruitment",
-    url:"https://www.linkedin.com/in/fiona-walsh-executive-search",
-    msg:`Hi Fiona, hope the searches are progressing well.\n\nQuick note from a fellow MD.\n\nExecutive search firms spend a lot of time on candidate profiles and client briefing documents.\n\nAI now handles the first draft of all of it.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a clear report on the best AI wins for your firm.\n\nWorth 15 minutes?` },
-  { id:17, name:"Dave Oswald", meta:"Director · Oswald Commercial Insurance Ltd", sector:"Insurance",
-    url:"https://www.linkedin.com/in/dave-oswald-commercial-insurance",
-    msg:`Hi Dave, hope Oswald is going well.\n\nQuick one as a fellow business owner.\n\nCommercial brokers lose hours each week to renewal summaries and client correspondence.\n\nAI now drafts policy summaries and renewal letters in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a tailored report on the top time savers for your brokerage.\n\nWould that be useful?` },
-  { id:18, name:"Natasha Briggs", meta:"Founder · Briggs and Partners Insurance Ltd", sector:"Insurance",
-    url:"https://www.linkedin.com/in/natasha-briggs-insurance",
-    msg:`Hi Natasha, hope all is well.\n\nQuick note from one founder to another.\n\nInsurance brokers running lean teams spend a lot of time on client documents and follow-ups.\n\nAI drafts most of that in minutes now.\n\nI run a free 15 minute AI Readiness Assessment for SME owners. No sales pitch.\n\nJust a clear report on where AI saves your brokerage most.\n\nWorth a look?` },
-  { id:19, name:"Tom Hargreaves", meta:"Director · Hargreaves Property Management Ltd", sector:"Property",
-    url:"https://www.linkedin.com/in/tom-hargreaves-property",
-    msg:`Hi Tom, hope all is going well.\n\nQuick one as a fellow business owner.\n\nProperty managers are buried in tenant emails, inspection reports, and supplier chasers.\n\nAI now drafts all of these in minutes.\n\nI run a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nYou get a tailored report on the biggest time savers for your firm.\n\nWorth 15 minutes?` },
-  { id:20, name:"Sarah Lamb", meta:"Founder · Lamb Lettings Ltd", sector:"Property",
-    url:"https://www.linkedin.com/in/sarah-lamb-lettings",
-    msg:`Hi Sarah, hope Lamb Lettings is going well.\n\nQuick note from one founder to another.\n\nLettings agencies lose hours each week to tenancy emails, reference requests, and routine comms.\n\nAI handles first drafts of all of these in minutes.\n\nI offer a free 15 minute AI Readiness Assessment for SME founders. No pitch.\n\nJust a personalised report on where AI saves you most time.\n\nWould that be useful?` }
+  { id:1, name:"Sahar Farooqi", meta:"Chief Executive Officer · Legalencia", sector:"Legal",
+    company:"Legalencia", why:"Legal tech founder positioned to model AI use for client firms.",
+    url:"https://www.linkedin.com/in/sahar-farooqi",
+    msg:`Hi Sahar.
+Running Legalencia means you already see how legal teams use AI.
+But most law firm owners we speak to still go manual.
+Letters, file notes, time recording, billing narratives.
+We run a free AI Readiness Assessment for SME founders.
+A 15 minute call, no pitch, a short report back.
+Worth a look?` },
+  { id:2, name:"Sean Finlay", meta:"Founder · ShareMachine - subsidary of your legal cloud", sector:"Legal",
+    company:"ShareMachine - subsidary of your legal cloud", why:"Legal cloud founder whose target firms still rely on manual admin.",
+    url:"https://www.linkedin.com/in/sean-finlay-271b4b61",
+    msg:`Hi Sean.
+Legal cloud puts you close to the AI shift.
+But many of the firms you sell to still drown in admin.
+Client letters, precedent drafting, file notes, billing narratives.
+I run a free AI Readiness Assessment for SME founders.
+A 15 minute voice call, then a tailored report.
+Useful for ShareMachine or your network?` },
+  { id:3, name:"Saleem Arif", meta:"Chairman & Co-Founder · ReviewSolicitors", sector:"Legal",
+    company:"ReviewSolicitors", why:"Owns the bridge between law firms and AI search behaviour.",
+    url:"https://www.linkedin.com/in/saleemarif1",
+    msg:`Hi Saleem.
+ReviewSolicitors sits between law firms and AI search every day.
+Most solicitors we speak to are still invisible to ChatGPT and Perplexity.
+Their referral pipeline is quietly leaking to AI answers.
+I run a free AI Readiness Assessment for founders.
+15 minute call with my agent Chloe, short report after.
+Worth 15 minutes for you or your firms?` },
+  { id:4, name:"Luke Sloman ACSI CeMAP", meta:"Founder & Mortgage and Protection Adviser · Acura Mortgage & Life", sector:"Mortgage",
+    company:"Acura Mortgage & Life", why:"Independent mortgage and protection adviser drowning in regulated paperwork.",
+    url:"https://www.linkedin.com/in/luke-sloman-acsi-cemap-3b5b6414",
+    msg:`Hi Luke.
+Running a mortgage and protection firm means hours lost to fact finds.
+Suitability letters, AML checks, follow up sequences, protection conversations.
+Most brokers we speak to do this all by hand.
+I run a free AI Readiness Assessment for SME founders.
+15 minutes by voice, then a short report back.
+Would that be useful?` },
+  { id:5, name:"Akash Desai", meta:"Co-Founder · OnPoint Mortgages", sector:"Mortgage",
+    company:"OnPoint Mortgages", why:"Growing mortgage co-founder ready to systemise client work with AI.",
+    url:"https://www.linkedin.com/in/akash-desai-52785622",
+    msg:`Hi Akash.
+Co founding a mortgage firm means juggling cases, compliance and clients.
+Fact finds, suitability letters, AML, client follow up.
+Most brokers still do all of this by hand.
+We run a free AI Readiness Assessment for SME founders.
+15 minute voice call, no pitch, a short report back.
+Worth a quick look?` },
+  { id:6, name:"Karen Willis", meta:"Managing Director · Charlie Victor Mortgage Services", sector:"Mortgage",
+    company:"Charlie Victor Mortgage Services", why:"Owner managed mortgage firm where every hour saved hits margin.",
+    url:"https://www.linkedin.com/in/karen-willis-436832a3",
+    msg:`Hi Karen.
+Mortgage firms get hammered by admin most weeks.
+Fact finds, suitability letters, AML, client follow up.
+Most brokers I speak to are still doing this all by hand.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report after.
+Would that be useful?` },
+  { id:7, name:"Chris Schutrups", meta:"Founder · The Mortgage Hut", sector:"Mortgage",
+    company:"The Mortgage Hut", why:"National mortgage brand with adviser pool ripe for AI automation.",
+    url:"https://www.linkedin.com/in/schutrups",
+    msg:`Hi Chris.
+The Mortgage Hut runs at a different scale to most brokers.
+But the same admin still eats time across advisers.
+Fact finds, suitability letters, AML, client follow up.
+I run a free AI Readiness Assessment for SME founders.
+A 15 minute voice call, short tailored report.
+Worth a chat for the wider team?` },
+  { id:8, name:"Joel Pither", meta:"Chartered MCSI Financial Adviser & Director · GP3 Financial Solutions Ltd", sector:"Financial Services",
+    company:"GP3 Financial Solutions Ltd", why:"Chartered financial planner facing constant suitability and review paperwork.",
+    url:"https://www.linkedin.com/in/joel-pither",
+    msg:`Hi Joel.
+Chartered planners get squeezed by paperwork every review cycle.
+Suitability reports, client review packs, investment summaries, compliance docs.
+Most advisers I speak to still type this from scratch.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report back.
+Would that be useful?` },
+  { id:9, name:"Sanj Singh, CeMAP, CeRER, CertRBCB", meta:"Owner & Mortgage & Protection Advisor (Whole of Market) · ASK Financial Solutions", sector:"Mortgage",
+    company:"ASK Financial Solutions", why:"Whole of market broker buried in research, fact finds and AML.",
+    url:"https://www.linkedin.com/in/sanj-singh-cemap-cerer-certrbcb-78b22740",
+    msg:`Hi Sanj.
+Whole of market means more research and more paperwork.
+Fact finds, suitability letters, AML, protection conversations.
+Most brokers I speak to still do all of this by hand.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report after.
+Worth 15 minutes?` },
+  { id:10, name:"Jonathan Bradley", meta:"Managing Director · Braton construction ltd", sector:"Construction",
+    company:"Braton construction ltd", why:"MD of UK construction SME losing evenings to manual reporting.",
+    url:"https://www.linkedin.com/in/jonathan-bradley-62337750",
+    msg:`Hi Jonathan.
+Running a construction firm means admin steals your evenings.
+Site reports, subcontractor comms, tender documents, health and safety packs.
+Most builders I speak to do this all by hand.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short tailored report.
+Would that be useful?` },
+  { id:11, name:"Mark Edroff", meta:"Managing Director · Kingsman Construction Ltd", sector:"Construction",
+    company:"Kingsman Construction Ltd", why:"Construction MD scaling past the point where manual admin can keep up.",
+    url:"https://www.linkedin.com/in/mark-edroff-60aa6061",
+    msg:`Hi Mark.
+Kingsman is at the stage where admin starts to slow growth.
+Site reports, subcontractor comms, tenders, project updates.
+Most builders still write all of this from scratch.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, no pitch, short report.
+Worth a quick look?` },
+  { id:12, name:"Stephen Barnes", meta:"Managing Director · CADWAL CONSTRUCTION LTD", sector:"Construction",
+    company:"CADWAL CONSTRUCTION LTD", why:"Construction owner whose tender and HSE paperwork eats senior time.",
+    url:"https://www.linkedin.com/in/stephen-barnes-a1247089",
+    msg:`Hi Stephen.
+Running a UK construction firm right now is brutal on time.
+Tenders, site reports, subcontractor comms, health and safety docs.
+Most MDs I speak to are still drowning in this by hand.
+I run a free AI Readiness Assessment for SME founders.
+A 15 minute call, short report after.
+Would that be useful?` },
+  { id:13, name:"Paul Phelan", meta:"Managing Director · Crystal Construction (NE) Ltd", sector:"Construction",
+    company:"Crystal Construction (NE) Ltd", why:"Regional construction MD competing on margin where AI saves hours daily.",
+    url:"https://www.linkedin.com/in/paul-phelan-4a327318",
+    msg:`Hi Paul.
+Running Crystal in the North East means thin margins on time.
+Tenders, site reports, subcontractor updates, project comms.
+Most builders I speak to still do this all manually.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report back.
+Worth a quick look?` },
+  { id:14, name:"Wayne Norcliffe FRICS, FCABE, Reg Valuer", meta:"Managing Director · Castle Surveyors Limited", sector:"Surveying",
+    company:"Castle Surveyors Limited", why:"Chartered surveyor practice producing high volume bespoke reports each week.",
+    url:"https://www.linkedin.com/in/wayne-norcliffe",
+    msg:`Hi Wayne.
+Chartered surveying firms get buried under reports.
+Inspection notes, valuation narratives, client packs, instruction emails.
+Most practices I speak to still type these from scratch.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report after.
+Would that be useful?` },
+  { id:15, name:"Lee Cook", meta:"Managing Director · Key Staffing Solutions Ltd", sector:"Recruitment",
+    company:"Key Staffing Solutions Ltd", why:"Staffing MD whose week is consumed by specs, briefs and updates.",
+    url:"https://www.linkedin.com/in/lee-cook-1702a0b7",
+    msg:`Hi Lee.
+Running a staffing firm means your time goes on outreach and updates.
+Job specs, candidate briefs, client updates, interview prep.
+Most recruiters I speak to still write all of this by hand.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report back.
+Worth 15 minutes?` },
+  { id:16, name:"Sam Naseer", meta:"Founder & Director · SN Recruitment Ltd", sector:"Recruitment",
+    company:"SN Recruitment Ltd", why:"Recruitment founder reliant on manual outreach and candidate write ups.",
+    url:"https://www.linkedin.com/in/sam-naseer-233bb530",
+    msg:`Hi Sam.
+Founding a recruitment firm means the admin never stops.
+Job specs, candidate briefs, outreach sequences, client updates.
+Most owners I speak to still type all of this from scratch.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short tailored report.
+Would that be useful?` },
+  { id:17, name:"TJ (Tanouja) Ramdehal", meta:"Founder · Roi Recruitment Ltd", sector:"Recruitment",
+    company:"Roi Recruitment Ltd", why:"Solo recruitment founder where every freed hour is direct revenue.",
+    url:"https://www.linkedin.com/in/tramdehal",
+    msg:`Hi TJ.
+Running Roi means your week vanishes into specs and outreach.
+Job briefs, candidate write ups, client updates, interview prep.
+Most recruiters I speak to still do this all by hand.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report after.
+Worth a quick look?` },
+  { id:18, name:"Yvie O'Toole", meta:"Managing Director · Monroe Recruitment Ltd", sector:"Recruitment",
+    company:"Monroe Recruitment Ltd", why:"Recruitment MD running advisers who all repeat the same admin daily.",
+    url:"https://www.linkedin.com/in/yvie-o-toole-54a2b497",
+    msg:`Hi Yvie.
+Running Monroe means a lot of writing every week.
+Job specs, candidate briefs, client updates, outreach sequences.
+Most recruiters I speak to still type this from scratch.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report back.
+Would that be useful?` },
+  { id:19, name:"Kim Lewis", meta:"Managing Director · DK Recruitment UK", sector:"Recruitment",
+    company:"DK Recruitment UK", why:"UK recruitment MD scaling outreach where AI compounds adviser output.",
+    url:"https://www.linkedin.com/in/kimlewis10",
+    msg:`Hi Kim.
+Running DK in this market means more admin than ever.
+Job specs, candidate briefs, client updates, outreach sequences.
+Most recruiters I speak to still write all of this by hand.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report after.
+Worth 15 minutes?` },
+  { id:20, name:"Zahid Khan", meta:"Chartered Architect: Managing Director · umaa architecture ltd", sector:"Architecture",
+    company:"umaa architecture ltd", why:"Chartered architect MD producing tenders, planning packs and specifications weekly.",
+    url:"https://www.linkedin.com/in/zahid-khan-95b77239",
+    msg:`Hi Zahid.
+Running an architecture practice means time goes on tenders and specs.
+Planning statements, design and access docs, fee proposals, client packs.
+Most practices I speak to still write all of this manually.
+I run a free AI Readiness Assessment for SME founders.
+15 minute voice call, short report back.
+Would that be useful?` }
 ];
 
 const POSTS = [
@@ -455,7 +595,19 @@ const POSTS = [
   { id:27, hook:"pain", content:"A letting agency owner rang me last Tuesday.\n\nShe was doing tenant references at 11pm.\n\nAgain.\n\nNot because she was behind.\n\nBecause that was the only quiet time to get through the inbox.\n\nWe looked at her week together.\n\n60% of her emails were the same three types.\n\nReference requests. Viewing confirmations. Chaser emails.\n\nWe built an AI template for each one.\n\nShe tested them that evening.\n\nBy Wednesday morning she was done with emails by 4pm.\n\nThe 11pm sessions stopped.\n\nHere is the honest question.\n\nWhat time of day are you doing work that should have been done hours ago?\n\nThat is your starting point.\n\nDrop it below and I will show you the AI fix." },
   { id:28, hook:"claim", content:"A wealth manager I work with reclaimed 6 hours every fortnight.\n\nNot by working faster. By stopping the rewriting.\n\nEvery client review, she was drafting the same structure from scratch.\n\nIntroduction. Portfolio summary. Recommendations. Actions.\n\nSame sections. Different client names and numbers.\n\nWe built one master prompt.\n\nShe pastes her meeting notes.\n\nAI drafts the full review in 8 minutes.\n\nShe edits, personalises, signs off.\n\nThe clients get a better report because she has time to actually review it.\n\nInstead of rushing the typing.\n\n6 hours. Every fortnight. Back.\n\nIf you write client reports and this sounds familiar, reply here.\n\nI will share the exact prompt. No strings attached." },
   { id:29, hook:"list", content:"3 AI wins every construction firm can implement this week.\n\nNo software purchases. No technical knowledge required.\n\n1. Tender boilerplate.\nKeep a one-page company summary. Services, experience, key stats.\nFor every tender: paste the brief, paste your summary.\nType: Draft the standard sections using our company profile.\n4 hours of Sunday becomes 25 minutes.\n\n2. Site progress reports.\nAt the end of each day, voice-note what happened.\nUpload to AI.\nType: Turn this into a weekly site progress report. Professional format.\nDone in 3 minutes.\n\n3. Subcontractor emails.\nType the situation in plain English.\nType: Write a professional email to a subcontractor asking for [thing]. Clear and direct.\n5 minutes becomes 90 seconds.\n\nAll three work on a standard ChatGPT subscription.\n\nSave this. Pass it to your site manager." },
-  { id:30, hook:"contrarian", content:"The busiest founders I know are not the most successful ones.\n\nThey are the ones who have not yet built the right systems.\n\nBusy is not a business model.\n\nIt is a warning sign.\n\nHere is what I see week in week out.\n\nFounders who are brilliant at their craft.\n\nBuried in the admin of running a business around that craft.\n\nBilling. Emails. Reports. Proposals. Scheduling.\n\nNone of it requires their expertise.\n\nAll of it eats the time they should spend on it.\n\nAI does not make you smarter.\n\nIt removes the work that was never yours to be doing.\n\nThe founders who get this move faster than those who don't.\n\nNot because they work harder.\n\nBecause they work on the right things.\n\nWhat is taking your time that was never really yours to begin with?" }
+  { id:30, hook:"contrarian", content:"The busiest founders I know are not the most successful ones.\n\nThey are the ones who have not yet built the right systems.\n\nBusy is not a business model.\n\nIt is a warning sign.\n\nHere is what I see week in week out.\n\nFounders who are brilliant at their craft.\n\nBuried in the admin of running a business around that craft.\n\nBilling. Emails. Reports. Proposals. Scheduling.\n\nNone of it requires their expertise.\n\nAll of it eats the time they should spend on it.\n\nAI does not make you smarter.\n\nIt removes the work that was never yours to be doing.\n\nThe founders who get this move faster than those who don't.\n\nNot because they work harder.\n\nBecause they work on the right things.\n\nWhat is taking your time that was never really yours to begin with?" },
+
+  // ── STORY POSTS (added 2026-05-29) ───────────────────────────────────────
+  { id:31, hook:"story", content:"I was ashamed to tell 99,000 people I was walking away.\n\nTen years of building authority in executive performance coaching.\nA community that knew me as the fitness and longevity guy.\nA reputation I had worked every single day to earn.\n\nAnd I was about to blow it up.\n\nWeight loss injections changed the game overnight.\nAI started writing personalised training plans for free.\nThe market I had built my business in was disappearing in real time.\n\nI had a choice.\nStay and slowly watch it die.\nOr move.\n\nI chose to move.\nAt 44 years old.\nInto a space I had never publicly worked in.\nTerrified of what my audience would think.\n\nSixteen years in corporate IT management gave me the foundation.\nBut shame does not care about your CV.\n\nHere is what I know now.\nPride in who you used to be is the most expensive thing you can hold onto.\n\nClose one door.\nA new one opens.\nBut you have to be willing to look like a beginner first." },
+  { id:32, hook:"story", content:"Nobody sees this version of me.\n\nThe 5am alarm.\nKids still asleep.\nHouse completely quiet.\nMe at my laptop trying to build something before the day takes over.\n\nAt 7am, school run.\nAt 8:30am, back at the desk.\nAt 3:30pm, school pickup.\nAt 5pm, gymnastics with Arabella.\n\nThen back to the laptop.\n\nPeople look at my LinkedIn profile and see 99,000 followers.\nThey see the AI consultancy.\nThey see the vision of working from Crete.\n\nThey do not see the questions I ask myself at midnight.\nThey do not see the honest conversations with my wife, Lara, when the numbers are tight.\nThey do not see me wondering if I have made the right call.\n\nBuilding in public looks polished.\nThe reality is unglamorous and full of doubt.\n\nThat does not mean it is wrong.\nIt means it is real.\n\nIf you are doing the 5am starts and questioning everything, you are not alone.\nKeep going." },
+  { id:33, hook:"story", content:"For the first time in nine years, I was scared about paying my bills.\n\nNot vaguely worried.\nActually scared.\n\nI had built a coaching business that gave us real freedom.\nWe lived in Crete for 18 months.\nI was there for every school drop off, every beach afternoon, every moment that mattered.\n\nThen the market shifted.\nAnd the clients stopped coming.\n\nI remember the conversation with Lara.\nWe sat down and said: enough is enough.\nSomething has to change.\n\nShe held things together financially while I found my footing.\nThat is not a small thing.\nThat is everything.\n\nPeople talk about building a business like it is a solo journey.\nIt never is.\n\nBehind every pivot there is usually someone who believed in you when you stopped believing in yourself.\n\nMine was Lara." },
+  { id:34, hook:"story", content:"2015. Built a coaching business from nothing.\n2018. Six-figure income. Total freedom. Life was good.\n2023. Weight loss injections changed the market overnight.\n2024. AI started replacing personal trainers.\n2025. For the first time in nine years, I had a cash flow problem.\n2025. I told 99,000 followers I was changing lanes.\n2026. Building again. From scratch. At 44.\n\nI am not telling you this because I have figured it out.\nI am telling you because most people only share the highlight reel.\n\nThe real story is messier.\nIt involves 5am starts, difficult conversations, and a lot of doubt.\n\nIf you are in the middle of a pivot right now, I see you.\nIt is not failure.\nIt is the cost of staying relevant." },
+  { id:35, hook:"story", content:"I had the life most people are working towards.\n\nWaking up in Crete.\nKids running to the beach before breakfast.\nWorking from a terrace with the sea in front of me.\nNo commute. No office politics. No ceiling.\n\nWe did that for 18 months.\n\nThen life pulled us back to the UK.\nAnd I spent the next year trying to rebuild what I had.\n\nThat experience changed the way I think about business forever.\n\nI am not building a company.\nI am building a vehicle.\n\nSomething that runs whether I am in Manchester or the Mediterranean.\nSomething that does not need me to be in a specific place to work.\nSomething I can still do when Arabella is doing gymnastics and Cayo is learning to swim.\n\nThe Crete chapter was not a lucky break.\nIt was proof of what a lifestyle business can actually look like.\n\nI am building my way back to it." },
+  { id:36, hook:"story", content:"I started over at 44.\n\nNew industry.\nNew audience.\nNew product.\nNew everything.\n\nMy executive coaching peers thought I had lost the plot.\nMy fitness audience wondered where the workout content had gone.\nPart of me wondered the same thing.\n\nBut I had sixteen years in corporate IT management before the coaching career.\nI knew what businesses looked like from the inside.\nI knew the problems they were paying to solve.\nAnd I could see exactly where AI was heading before most of them could.\n\nAge is not the problem people think it is.\nExperience compounds.\nEvery chapter you close adds to the one you are starting.\n\nI am not rebuilding from zero.\nI am building on everything I already know.\n\nForty four is not too late.\nIt might be exactly the right time." },
+  { id:37, hook:"story", content:"I went from the fitness guy to the AI guy overnight.\n\nSome people found it confusing.\nSome people unfollowed.\nSome people thought I had given up.\n\nI had not given up.\nI had paid attention.\n\nWhen the tools that replaced your service start outperforming you, you have two options.\nCompete with them.\nOr use them.\n\nI chose to use them.\n\nMy ten years in health and performance taught me one thing above everything else.\nThe market does not care about your identity.\nIt cares about your results.\n\nI still believe in everything I built.\nI am just building it for a different audience now.\n\nBusiness owners who feel left behind by AI.\nCompanies who know they need to change but do not know where to start.\nFounders who want the results without the technical headache.\n\nThe space changed.\nSo did I." },
+  { id:38, hook:"story", content:"The week I realised my business model was over.\n\nI was on a call with a CEO client.\nHe had just started using a weight loss injection his GP had prescribed.\nHe was already getting results.\n\nHe told me he was also using ChatGPT to build his training plan now.\nHe said: it is pretty good, Mark.\n\nI drove home and sat with that.\n\nThis was not a slow decline.\nThis was a market getting disrupted in months, not years.\n\nAI was writing personalised training programmes.\nInjections were doing what years of discipline used to require.\nThe high-end coaching model I had built was being compressed from both sides.\n\nI spent about a week feeling sorry for myself.\nThen I opened ChatGPT and started learning.\n\nThe tools that disrupted my business became the tools I use to build the next one.\n\nIf AI is threatening your industry, the worst thing you can do is ignore it.\nThe best thing you can do is get closer to it." },
+  { id:39, hook:"story", content:"My wife and I sat down and had the honest conversation.\n\nNot the polished version.\nThe real one.\n\nThings were tight.\nThe business had slowed.\nThe pivot was taking longer than I had hoped.\nAnd the bills do not pause for pivots.\n\nLara had been holding things together financially.\nAnd doing it without making me feel small for it.\n\nThat conversation was not comfortable.\nBut it was necessary.\n\nWe agreed that something had to change.\nNot tomorrow.\nNow.\n\nWithin two weeks I had brought on new clients.\nThe business started moving again.\n\nI am not sharing this because it makes me look good.\nI am sharing it because the version of entrepreneurship most people post about is sanitised.\n\nThe real version involves your partner, your mortgage, and a kitchen table conversation at 10pm.\n\nIt is not glamorous.\nIt is also not something to be ashamed of." },
+  { id:40, hook:"story", content:"Ten years of work.\nA community I had built from nothing.\nAn identity I had worn every single day.\n\nAnd I had to close the door on all of it.\n\nNot because I failed.\nBecause something bigger was opening on the other side.\n\nThe hardest part was not the pivot itself.\nIt was admitting I needed to pivot.\n\nPride makes you hold on longer than you should.\nFear of judgment makes you stay in a room that no longer fits.\n\nI stayed in mine for longer than I needed to.\n\nThen I walked out.\n\nAt 44.\nInto a new industry.\nWith two kids, a school run, and a 5am alarm.\n\nI do not know if I will look back on this as the best decision I ever made.\n\nBut I know this.\n\nThe business I had was built on my effort alone.\nThe business I am building now can run without me.\nAnd it can run from anywhere in the world.\n\nThat is worth the discomfort of starting again." }
 ];
 
 const STAGES = ['new','messaged','replied','call','won'];
@@ -612,8 +764,8 @@ function postCardHTML(p){
 }
 
 function renderFilterChips(){
-  const hooks = ['all','contrarian','pain','question','claim','list'];
-  const labels = { all:'All', contrarian:'Contrarian', pain:'Pain', question:'Question', claim:'Claim', list:'List' };
+  const hooks = ['all','story','contrarian','pain','question','claim','list'];
+  const labels = { all:'All', story:'My Story', contrarian:'Contrarian', pain:'Pain', question:'Question', claim:'Claim', list:'List' };
   const chipsHTML = hooks.map(h => `<button class="chip${h===postFilter?' active':''}" onclick="setFilter('${h}')">${labels[h]}</button>`).join('');
   ['mob-filter-chips','desk-filter-chips'].forEach(id => {
     const el = document.getElementById(id);
